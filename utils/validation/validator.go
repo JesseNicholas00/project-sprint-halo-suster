@@ -1,8 +1,8 @@
 package validation
 
 import (
-	"github.com/KerakTelor86/GoBoiler/utils/validation/image"
-	"github.com/KerakTelor86/GoBoiler/utils/validation/phone"
+	"github.com/JesseNicholas00/HaloSuster/utils/validation/image"
+	"github.com/JesseNicholas00/HaloSuster/utils/validation/phone"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )

@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/KerakTelor86/GoBoiler/utils/logging"
+	"github.com/JesseNicholas00/HaloSuster/utils/logging"
 	"github.com/labstack/echo/v4"
 )
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/KerakTelor86/GoBoiler/utils/transaction"
+	"github.com/JesseNicholas00/HaloSuster/utils/transaction"
 	"github.com/jmoiron/sqlx"
 )
 

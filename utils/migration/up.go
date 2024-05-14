@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/KerakTelor86/GoBoiler/utils/logging"
+	"github.com/JesseNicholas00/HaloSuster/utils/logging"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"

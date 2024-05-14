@@ -3,7 +3,7 @@ package auth
 import (
 	"time"
 
-	"github.com/KerakTelor86/GoBoiler/repos/auth"
+	"github.com/JesseNicholas00/HaloSuster/repos/auth"
 	"github.com/golang-jwt/jwt/v4"
 )
 

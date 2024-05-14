@@ -8,7 +8,7 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 
-	"github.com/KerakTelor86/GoBoiler/utils/unittesting"
+	"github.com/JesseNicholas00/HaloSuster/utils/unittesting"
 )
 
 func TestCreateEchoContextFromRequest(t *testing.T) {
