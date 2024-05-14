@@ -1,7 +1,7 @@
 package validation
 
 import (
-	"github.com/JesseNicholas00/HaloSuster/utils/validation/image"
+	"github.com/JesseNicholas00/HaloSuster/utils/validation/nip"
 	"github.com/JesseNicholas00/HaloSuster/utils/validation/phone"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -17,12 +17,20 @@ func (e *EchoValidator) Validate(i interface{}) error {
 
 var customFields = []customField{
 	{
-		Tag:       "phoneNumber",
+		Tag:       "phoneNum",
 		Validator: phone.ValidatePhoneNumber,
 	},
 	{
-		Tag:       "imageExtension",
-		Validator: image.ValidateImageExtension,
+		Tag:       "nip",
+		Validator: nip.ValidateNip,
+	},
+	{
+		Tag:       "nipNurse",
+		Validator: nip.ValidateNipNurse,
+	},
+	{
+		Tag:       "nipIt",
+		Validator: nip.ValidateNipIt,
 	},
 }
 
