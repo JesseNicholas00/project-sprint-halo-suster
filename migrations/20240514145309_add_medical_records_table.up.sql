@@ -8,5 +8,5 @@ CREATE TABLE medical_records (
     symptoms TEXT,
     medication TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by_user_id TEXT
+    created_by TEXT
 );
