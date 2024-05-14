@@ -83,7 +83,7 @@ func (mw *authMiddleware) Process(next echo.HandlerFunc) echo.HandlerFunc {
 
 func NewAuthMiddleware(
 	service auth.AuthService,
-	allowedRoles []nip.NipRole,
+	allowedRoles ...nip.NipRole,
 ) Middleware {
 	return &authMiddleware{
 		service:      service,
