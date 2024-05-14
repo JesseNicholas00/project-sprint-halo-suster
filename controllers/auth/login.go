@@ -4,9 +4,9 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/KerakTelor86/GoBoiler/services/auth"
-	"github.com/KerakTelor86/GoBoiler/utils/errorutil"
-	"github.com/KerakTelor86/GoBoiler/utils/request"
+	"github.com/JesseNicholas00/HaloSuster/services/auth"
+	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
+	"github.com/JesseNicholas00/HaloSuster/utils/request"
 	"github.com/labstack/echo/v4"
 )
 

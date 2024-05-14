@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/KerakTelor86/GoBoiler/utils/errorutil"
+	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
 	"github.com/golang-jwt/jwt/v4"
 )
 

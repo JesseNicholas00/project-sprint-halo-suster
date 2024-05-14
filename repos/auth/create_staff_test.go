@@ -7,7 +7,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/KerakTelor86/GoBoiler/repos/auth"
+	"github.com/JesseNicholas00/HaloSuster/repos/auth"
 	. "github.com/smartystreets/goconvey/convey"
 )
 

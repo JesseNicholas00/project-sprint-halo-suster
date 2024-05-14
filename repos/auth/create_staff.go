@@ -3,7 +3,7 @@ package auth
 import (
 	"context"
 
-	"github.com/KerakTelor86/GoBoiler/utils/errorutil"
+	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
 	"github.com/jmoiron/sqlx"
 )
 
