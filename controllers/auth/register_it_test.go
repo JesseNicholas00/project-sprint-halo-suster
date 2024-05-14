@@ -90,17 +90,19 @@ func TestRegisterInvalid(t *testing.T) {
 		defer mockCtrl.Finish()
 
 		name := "firstname lastname"
-		nip := nip.New(nip.RoleIt, nip.GenderMale, 2001, 1, 429)
 		password := "password"
 
 		Convey("On invalid request", func() {
+			// nurse NIP
+			nip := nip.New(nip.RoleNurse, nip.GenderMale, 2001, 1, 429)
+
 			rec := httptest.NewRecorder()
 			ctx := unittesting.CreateEchoContextFromRequest(
 				http.MethodPost,
 				"/v1/user/it/register",
 				rec,
 				unittesting.WithJsonPayload(map[string]interface{}{
-					// no name
+					"name":     name,
 					"nip":      nip,
 					"password": password,
 				}),
@@ -113,6 +115,8 @@ func TestRegisterInvalid(t *testing.T) {
 		})
 
 		Convey("On duplicate NIP", func() {
+			nip := nip.New(nip.RoleIt, nip.GenderMale, 2001, 1, 429)
+
 			rec := httptest.NewRecorder()
 			ctx := unittesting.CreateEchoContextFromRequest(
 				http.MethodPost,

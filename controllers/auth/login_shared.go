@@ -21,7 +21,9 @@ func (ctrl *authController) loginShared(
 	}
 
 	if nip.GetRole(req.Nip) != expectedRole {
-		return echo.NewHTTPError(http.StatusNotFound)
+		return echo.NewHTTPError(http.StatusNotFound, echo.Map{
+			"message": "wrong nip role",
+		})
 	}
 
 	var res auth.LoginRes
@@ -29,10 +31,14 @@ func (ctrl *authController) loginShared(
 	if err != nil {
 		switch {
 		case errors.Is(err, auth.ErrUserNotFound):
-			return echo.NewHTTPError(http.StatusNotFound)
+			return echo.NewHTTPError(http.StatusNotFound, echo.Map{
+				"message": "no such user found",
+			})
 
 		case errors.Is(err, auth.ErrInvalidCredentials):
-			return echo.NewHTTPError(http.StatusBadRequest)
+			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
+				"message": "invalid credentials",
+			})
 
 		default:
 			return errorutil.AddCurrentContext(err)
