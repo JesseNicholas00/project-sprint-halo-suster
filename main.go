@@ -15,14 +15,14 @@ import (
 )
 
 func main() {
-	mainInitLogger := logging.GetLogger("main", "init")
-
 	cfg, err := loadConfig()
 	if err != nil {
-		mainInitLogger.Error(err.Error())
+		logging.GetLogger("config").Error(err.Error())
 	}
 
 	logging.SetLogLevel(cfg.logLevel)
+
+	mainInitLogger := logging.GetLogger("main", "init")
 
 	mainInitLogger.Debug(fmt.Sprintf("%+v", cfg))
 
