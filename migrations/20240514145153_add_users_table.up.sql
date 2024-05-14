@@ -1,5 +1,6 @@
 CREATE TABLE users (
-    nip BIGINT PRIMARY KEY,
+    user_id TEXT PRIMARY KEY,
+    nip BIGINT UNIQUE,
     name TEXT,
     password TEXT,
     role TEXT,
