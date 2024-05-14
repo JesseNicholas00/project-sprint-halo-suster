@@ -28,13 +28,17 @@ func main() {
 
 	if cfg.migrateDownOnStart {
 		if err := migration.MigrateDown(cfg.dbString, "migrations"); err != nil {
-			mainInitLogger.Error("failed to migrate down db: %s", err)
+			mainInitLogger.Error(
+				fmt.Sprintf("failed to migrate down db: %s", err),
+			)
 			return
 		}
 	}
 	if cfg.migrateUpOnStart {
 		if err := migration.MigrateUp(cfg.dbString, "migrations"); err != nil {
-			mainInitLogger.Error("failed to migrate up db: %s", err)
+			mainInitLogger.Error(
+				fmt.Sprintf("failed to migrate up db: %s", err),
+			)
 			return
 		}
 	}
