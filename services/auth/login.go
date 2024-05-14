@@ -9,42 +9,48 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (svc *authServiceImpl) LoginStaff(
+func (svc *authServiceImpl) Login(
 	ctx context.Context,
-	req LoginStaffReq,
-	res *LoginStaffRes,
+	req LoginReq,
+	res *LoginRes,
 ) error {
 	if err := ctx.Err(); err != nil {
 		return err
 	}
 
-	staff, err := svc.repo.FindStaffByPhone(ctx, req.PhoneNumber)
+	user, err := svc.repo.FindUserByNip(ctx, req.Nip)
 
 	if err != nil {
-		if errors.Is(err, auth.ErrPhoneNumberNotFound) {
+		switch {
+		case errors.Is(err, auth.ErrNipNotFound):
 			return ErrUserNotFound
-		}
 
-		return errorutil.AddCurrentContext(err)
+		default:
+			return errorutil.AddCurrentContext(err)
+		}
+	}
+
+	if !user.Active {
+		return ErrUserHasNoAccess
 	}
 
 	err = bcrypt.CompareHashAndPassword(
-		[]byte(staff.Password),
+		[]byte(user.Password),
 		[]byte(req.Password),
 	)
 	if err != nil {
 		return ErrInvalidCredentials
 	}
 
-	token, err := svc.generateToken(staff)
+	token, err := svc.generateToken(user)
 	if err != nil {
 		return errorutil.AddCurrentContext(err)
 	}
 
-	*res = LoginStaffRes{
-		UserId:      staff.Id,
-		PhoneNumber: staff.Phone,
-		Name:        staff.Name,
+	*res = LoginRes{
+		UserId:      user.Id,
+		Nip:         user.Nip,
+		Name:        user.Name,
 		AccessToken: token,
 	}
 

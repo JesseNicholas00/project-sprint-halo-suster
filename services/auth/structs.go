@@ -2,27 +2,27 @@ package auth
 
 import "github.com/golang-jwt/jwt/v4"
 
-type RegisterStaffReq struct {
-	PhoneNumber string `json:"phoneNumber" validate:"required,phoneNumber"`
-	Name        string `json:"name"        validate:"required,min=5,max=50"`
-	Password    string `json:"password"    validate:"required,min=5,max=15"`
+type RegisterItReq struct {
+	Nip      int64  `json:"nip"      validate:"required,nip"`
+	Name     string `json:"name"     validate:"required,min=5,max=50"`
+	Password string `json:"password" validate:"required,min=5,max=33"`
 }
 
-type RegisterStaffRes struct {
+type RegisterItRes struct {
 	UserId      string `json:"userId"`
-	PhoneNumber string `json:"phoneNumber"`
+	Nip         int64  `json:"nip"`
 	Name        string `json:"name"`
 	AccessToken string `json:"accessToken"`
 }
 
-type LoginStaffReq struct {
-	PhoneNumber string `json:"phoneNumber" validate:"required,phoneNumber"`
-	Password    string `json:"password"    validate:"required,min=5,max=15"`
+type LoginReq struct {
+	Nip      int64  `json:"nip"      validate:"required,nip"`
+	Password string `json:"password" validate:"required,min=5,max=33"`
 }
 
-type LoginStaffRes struct {
+type LoginRes struct {
 	UserId      string `json:"userId"`
-	PhoneNumber string `json:"phoneNumber"`
+	Nip         int64  `json:"nip"`
 	Name        string `json:"name"`
 	AccessToken string `json:"accessToken"`
 }
@@ -32,15 +32,13 @@ type GetSessionFromTokenReq struct {
 }
 
 type GetSessionFromTokenRes struct {
-	UserId      string
-	PhoneNumber string
-	Name        string
+	UserId string
+	Nip    int64
 }
 
 type jwtSubClaims struct {
-	UserId      string `json:"userId"`
-	PhoneNumber string `json:"phoneNumber"`
-	Name        string `json:"name"`
+	UserId string `json:"userId"`
+	Nip    int64  `json:"nip"`
 }
 
 type jwtClaims struct {

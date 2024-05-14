@@ -7,58 +7,59 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/HaloSuster/services/auth"
+	"github.com/JesseNicholas00/HaloSuster/types/nip"
 	"github.com/JesseNicholas00/HaloSuster/utils/helper"
 	"github.com/JesseNicholas00/HaloSuster/utils/unittesting"
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-func TestRegisterValid(t *testing.T) {
+func TestRegisterItValid(t *testing.T) {
 	Convey("When given a valid register request", t, func() {
 		mockCtrl, controller, service := NewControllerWithMockedService(t)
 		defer mockCtrl.Finish()
 
 		userId := "dummyId"
 		name := "namadepan namabelakang"
-		phoneNumber := "+1-2468123123123"
+		nip := nip.New(nip.RoleIt, nip.GenderMale, 2001, 1, 429)
 		password := "password"
 		accessToken := "token"
 
 		rec := httptest.NewRecorder()
 		ctx := unittesting.CreateEchoContextFromRequest(
 			http.MethodPost,
-			"/v1/staff/register",
+			"/v1/user/it/register",
 			rec,
 			unittesting.WithJsonPayload(map[string]interface{}{
-				"phoneNumber": phoneNumber,
-				"name":        name,
-				"password":    password,
+				"nip":      nip,
+				"name":     name,
+				"password": password,
 			}),
 		)
 
 		Convey("Should forward the request to the service layer", func() {
-			expectedReq := auth.RegisterStaffReq{
-				PhoneNumber: phoneNumber,
-				Name:        name,
-				Password:    password,
+			expectedReq := auth.RegisterItReq{
+				Nip:      nip,
+				Name:     name,
+				Password: password,
 			}
-			expectedRes := auth.RegisterStaffRes{
+			expectedRes := auth.RegisterItRes{
 				UserId:      userId,
-				PhoneNumber: phoneNumber,
+				Nip:         nip,
 				Name:        name,
 				AccessToken: accessToken,
 			}
 
 			service.
 				EXPECT().
-				RegisterStaff(gomock.Any(), expectedReq, gomock.Any()).
-				Do(func(_ context.Context, _ auth.RegisterStaffReq, res *auth.RegisterStaffRes) {
+				RegisterIt(gomock.Any(), expectedReq, gomock.Any()).
+				Do(func(_ context.Context, _ auth.RegisterItReq, res *auth.RegisterItRes) {
 					*res = expectedRes
 				}).
 				Return(nil).
 				Times(1)
 
-			unittesting.CallController(ctx, controller.registerStaff)
+			unittesting.CallController(ctx, controller.registerIt)
 
 			Convey(
 				"Should return the expected response with HTTP 201",
@@ -89,57 +90,54 @@ func TestRegisterInvalid(t *testing.T) {
 		defer mockCtrl.Finish()
 
 		name := "firstname lastname"
-		phoneNumber := "+1-2468123123123"
+		nip := nip.New(nip.RoleIt, nip.GenderMale, 2001, 1, 429)
 		password := "password"
 
 		Convey("On invalid request", func() {
-			phoneNumber := "+1-2468123123123"
-			password := "password"
-
 			rec := httptest.NewRecorder()
 			ctx := unittesting.CreateEchoContextFromRequest(
 				http.MethodPost,
-				"/v1/staff/register",
+				"/v1/user/it/register",
 				rec,
 				unittesting.WithJsonPayload(map[string]interface{}{
 					// no name
-					"phoneNumber": phoneNumber,
-					"password":    password,
+					"nip":      nip,
+					"password": password,
 				}),
 			)
 
 			Convey("Should return HTTP code 400", func() {
-				unittesting.CallController(ctx, controller.registerStaff)
+				unittesting.CallController(ctx, controller.registerIt)
 				So(rec.Code, ShouldEqual, http.StatusBadRequest)
 			})
 		})
 
-		Convey("On duplicate phone number", func() {
+		Convey("On duplicate NIP", func() {
 			rec := httptest.NewRecorder()
 			ctx := unittesting.CreateEchoContextFromRequest(
 				http.MethodPost,
-				"/v1/staff/register",
+				"/v1/user/it/register",
 				rec,
 				unittesting.WithJsonPayload(map[string]interface{}{
-					"name":        name,
-					"phoneNumber": phoneNumber,
-					"password":    password,
+					"name":     name,
+					"nip":      nip,
+					"password": password,
 				}),
 			)
 
 			Convey("Should return HTTP code 409", func() {
-				expectedReq := auth.RegisterStaffReq{
-					PhoneNumber: phoneNumber,
-					Name:        name,
-					Password:    password,
+				expectedReq := auth.RegisterItReq{
+					Nip:      nip,
+					Name:     name,
+					Password: password,
 				}
 
 				service.EXPECT().
-					RegisterStaff(gomock.Any(), expectedReq, gomock.Any()).
-					Return(auth.ErrPhoneNumberAlreadyRegistered).
+					RegisterIt(gomock.Any(), expectedReq, gomock.Any()).
+					Return(auth.ErrNipAlreadyExists).
 					Times(1)
 
-				unittesting.CallController(ctx, controller.registerStaff)
+				unittesting.CallController(ctx, controller.registerIt)
 				So(rec.Code, ShouldEqual, http.StatusConflict)
 			})
 		})

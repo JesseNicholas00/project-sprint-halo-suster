@@ -5,33 +5,34 @@ import (
 	"net/http"
 
 	"github.com/JesseNicholas00/HaloSuster/services/auth"
+	"github.com/JesseNicholas00/HaloSuster/types/nip"
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
 	"github.com/JesseNicholas00/HaloSuster/utils/request"
 	"github.com/labstack/echo/v4"
 )
 
-func (ctrl *authController) loginStaff(c echo.Context) error {
-	var req auth.LoginStaffReq
+func (ctrl *authController) loginShared(
+	c echo.Context,
+	expectedRole nip.NipRole,
+) error {
+	var req auth.LoginReq
 	if err := request.BindAndValidate(c, &req); err != nil {
 		return err
 	}
 
-	var res auth.LoginStaffRes
-	if err := ctrl.service.LoginStaff(
-		c.Request().Context(),
-		req,
-		&res,
-	); err != nil {
+	if nip.GetRole(req.Nip) != expectedRole {
+		return echo.NewHTTPError(http.StatusNotFound)
+	}
+
+	var res auth.LoginRes
+	err := ctrl.service.Login(c.Request().Context(), req, &res)
+	if err != nil {
 		switch {
 		case errors.Is(err, auth.ErrUserNotFound):
-			return echo.NewHTTPError(http.StatusNotFound, echo.Map{
-				"message": "user not found",
-			})
+			return echo.NewHTTPError(http.StatusNotFound)
 
 		case errors.Is(err, auth.ErrInvalidCredentials):
-			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
-				"message": "wrong password",
-			})
+			return echo.NewHTTPError(http.StatusBadRequest)
 
 		default:
 			return errorutil.AddCurrentContext(err)

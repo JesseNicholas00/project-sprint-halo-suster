@@ -7,10 +7,10 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func (repo *authRepostioryImpl) FindStaffByPhone(
+func (repo *authRepostioryImpl) FindUserByNip(
 	ctx context.Context,
-	phone string,
-) (res Staff, err error) {
+	nip int64,
+) (res User, err error) {
 	if err = ctx.Err(); err != nil {
 		return
 	}
@@ -19,9 +19,9 @@ func (repo *authRepostioryImpl) FindStaffByPhone(
 		SELECT
 			*
 		FROM
-			staffs
+			users
 		WHERE
-			staff_phone_number = :phone_number
+			nip = :nip
 	`
 	ctx, sess, err := repo.dbRizzer.GetOrNoTx(ctx)
 	if err != nil {
@@ -34,7 +34,7 @@ func (repo *authRepostioryImpl) FindStaffByPhone(
 		sess.Ext,
 		query,
 		map[string]interface{}{
-			"phone_number": phone,
+			"nip": nip,
 		},
 	)
 
@@ -53,7 +53,7 @@ func (repo *authRepostioryImpl) FindStaffByPhone(
 	}
 
 	if res.Id == "" {
-		err = ErrPhoneNumberNotFound
+		err = ErrNipNotFound
 		return
 	}
 

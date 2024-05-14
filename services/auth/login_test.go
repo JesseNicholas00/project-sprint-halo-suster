@@ -6,23 +6,24 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/HaloSuster/repos/auth"
+	"github.com/JesseNicholas00/HaloSuster/types/nip"
 	gomock "github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func TestLoginStaff(t *testing.T) {
-	Convey("When logging in as staff", t, func() {
+func TestLogin(t *testing.T) {
+	Convey("When logging in", t, func() {
 		mockCtrl, service, mockedRepo := NewWithMockedRepo(t)
 		defer mockCtrl.Finish()
 
-		req := LoginStaffReq{
-			PhoneNumber: "+6281234567890",
-			Password:    "password",
+		req := LoginReq{
+			Nip:      nip.New(nip.RoleIt, nip.GenderMale, 2001, 1, 420),
+			Password: "password",
 		}
-		reqWrong := LoginStaffReq{
-			PhoneNumber: req.PhoneNumber,
-			Password:    "epic bruh moment",
+		reqWrong := LoginReq{
+			Nip:      req.Nip,
+			Password: "epic bruh moment",
 		}
 
 		cryptedPw, err := bcrypt.GenerateFromPassword(
@@ -31,23 +32,50 @@ func TestLoginStaff(t *testing.T) {
 		)
 		So(err, ShouldBeNil)
 
-		repoRes := auth.Staff{
+		repoRes := auth.User{
 			Id:        "bread",
+			Nip:       req.Nip,
 			Name:      "john bread",
-			Phone:     req.PhoneNumber,
 			Password:  string(cryptedPw),
+			Active:    true,
+			ImageUrl:  "https://bread.com/bread.png",
 			CreatedAt: "now",
-			UpdatedAt: "now",
 		}
 
-		Convey("If the phone number is not registered", func() {
+		repoResInactive := auth.User{
+			Id:        "bread",
+			Nip:       req.Nip,
+			Name:      "john bread",
+			Password:  string(cryptedPw),
+			Active:    false,
+			ImageUrl:  "https://bread.com/bread.png",
+			CreatedAt: "now",
+		}
+
+		Convey("If the user is inactive", func() {
 			mockedRepo.EXPECT().
-				FindStaffByPhone(gomock.Any(), req.PhoneNumber).
-				Return(auth.Staff{}, auth.ErrPhoneNumberNotFound).
+				FindUserByNip(gomock.Any(), req.Nip).
+				Return(repoResInactive, nil).
 				Times(1)
 
-			res := LoginStaffRes{}
-			err := service.LoginStaff(context.TODO(), req, &res)
+			res := LoginRes{}
+			err := service.Login(context.TODO(), req, &res)
+			Convey("Should return ErrUserHasNoAccess", func() {
+				So(
+					errors.Is(err, ErrUserHasNoAccess),
+					ShouldBeTrue,
+				)
+			})
+		})
+
+		Convey("If the NIP is not registered", func() {
+			mockedRepo.EXPECT().
+				FindUserByNip(gomock.Any(), req.Nip).
+				Return(auth.User{}, auth.ErrNipNotFound).
+				Times(1)
+
+			res := LoginRes{}
+			err := service.Login(context.TODO(), req, &res)
 			Convey("Should return ErrUserNotFound", func() {
 				So(
 					errors.Is(err, ErrUserNotFound),
@@ -56,17 +84,17 @@ func TestLoginStaff(t *testing.T) {
 			})
 		})
 
-		Convey("If the phone number is registered", func() {
+		Convey("If the NIP is registered", func() {
 			mockedRepo.EXPECT().
-				FindStaffByPhone(gomock.Any(), req.PhoneNumber).
+				FindUserByNip(gomock.Any(), req.Nip).
 				Return(repoRes, nil).
 				Times(1)
 
 			Convey(
 				"And the password is incorrect",
 				func() {
-					res := LoginStaffRes{}
-					err := service.LoginStaff(context.TODO(), reqWrong, &res)
+					res := LoginRes{}
+					err := service.Login(context.TODO(), reqWrong, &res)
 
 					Convey("Should return ErrInvalidCredentials", func() {
 						So(errors.Is(err, ErrInvalidCredentials), ShouldBeTrue)
@@ -77,16 +105,16 @@ func TestLoginStaff(t *testing.T) {
 			Convey(
 				"And the password is correct",
 				func() {
-					res := LoginStaffRes{}
-					err := service.LoginStaff(context.TODO(), req, &res)
+					res := LoginRes{}
+					err := service.Login(context.TODO(), req, &res)
 
 					Convey(
 						"Should return nil and write the correct result to res",
 						func() {
 							So(err, ShouldBeNil)
-							So(res.Name, ShouldEqual, repoRes.Name)
-							So(res.PhoneNumber, ShouldEqual, repoRes.Phone)
 							So(res.UserId, ShouldEqual, repoRes.Id)
+							So(res.Nip, ShouldEqual, repoRes.Nip)
+							So(res.Name, ShouldEqual, repoRes.Name)
 						},
 					)
 				},

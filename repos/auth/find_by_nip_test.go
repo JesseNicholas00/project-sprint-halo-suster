@@ -9,12 +9,13 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/HaloSuster/repos/auth"
+	"github.com/JesseNicholas00/HaloSuster/types/nip"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-func TestFindStaffByPhone(t *testing.T) {
+func TestFindUserByNip(t *testing.T) {
 	Convey(
-		"When database contains staff members with different phone numbers",
+		"When database contains users with different nips",
 		t,
 		func() {
 			repo := NewWithTestDatabase(t)
@@ -24,32 +25,34 @@ func TestFindStaffByPhone(t *testing.T) {
 				"id2",
 				"id3",
 			}
-			dummyPhones := []string{
-				"+123456789012",
-				"+123456789013",
-				"+123456789014",
+			dummyNips := []int64{
+				nip.New(nip.RoleIt, nip.GenderMale, 2001, 1, 420),
+				nip.New(nip.RoleNurse, nip.GenderFemale, 2001, 2, 69),
+				nip.New(nip.RoleIt, nip.GenderFemale, 1999, 12, 361),
 			}
 			for i := range dummyIds {
-				curReqStaff := auth.Staff{
+				curReqUser := auth.User{
 					Id:       dummyIds[i],
+					Nip:      dummyNips[i],
 					Name:     "firstname lastname",
-					Phone:    dummyPhones[i],
 					Password: "hashedPasswordVeryScure",
+					Active:   true,
+					ImageUrl: "https://bread.com/bread.png",
 				}
-				_, err := repo.CreateStaff(context.TODO(), curReqStaff)
+				_, err := repo.CreateUser(context.TODO(), curReqUser)
 				So(err, ShouldBeNil)
 			}
 
 			Convey(
 				"Should return the staff with the requested phone number if one exists",
 				func() {
-					for _, expectedPhone := range dummyPhones {
-						resStaff, err := repo.FindStaffByPhone(
+					for _, expectedNip := range dummyNips {
+						resStaff, err := repo.FindUserByNip(
 							context.TODO(),
-							expectedPhone,
+							expectedNip,
 						)
 						So(err, ShouldBeNil)
-						So(resStaff.Phone, ShouldEqual, expectedPhone)
+						So(resStaff.Nip, ShouldEqual, expectedNip)
 					}
 				},
 			)
@@ -57,12 +60,12 @@ func TestFindStaffByPhone(t *testing.T) {
 			Convey(
 				"Should return ErrPhoneNumberNotFound when phone number doesn't exist",
 				func() {
-					_, err := repo.FindStaffByPhone(
+					_, err := repo.FindUserByNip(
 						context.TODO(),
-						"+123456789015",
+						nip.New(nip.RoleNurse, nip.GenderMale, 1968, 3, 3),
 					)
 					So(
-						errors.Is(err, auth.ErrPhoneNumberNotFound),
+						errors.Is(err, auth.ErrNipNotFound),
 						ShouldBeTrue,
 					)
 				},

@@ -3,15 +3,15 @@ package auth
 import "context"
 
 type AuthService interface {
-	RegisterStaff(
+	RegisterIt(
 		ctx context.Context,
-		req RegisterStaffReq,
-		res *RegisterStaffRes,
+		req RegisterItReq,
+		res *RegisterItRes,
 	) error
-	LoginStaff(
+	Login(
 		ctx context.Context,
-		req LoginStaffReq,
-		res *LoginStaffRes,
+		req LoginReq,
+		res *LoginRes,
 	) error
 	GetSessionFromToken(
 		ctx context.Context,

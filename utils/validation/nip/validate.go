@@ -1,7 +1,7 @@
 package nip
 
 import (
-	"github.com/JesseNicholas00/HaloSuster/utils/nip"
+	"github.com/JesseNicholas00/HaloSuster/types/nip"
 	"github.com/go-playground/validator/v10"
 )
 

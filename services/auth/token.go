@@ -8,16 +8,15 @@ import (
 )
 
 func (svc *authServiceImpl) generateToken(
-	staff auth.Staff,
+	user auth.User,
 ) (res string, err error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwtClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(8 * time.Hour)),
 		},
 		Data: jwtSubClaims{
-			UserId:      staff.Id,
-			PhoneNumber: staff.Phone,
-			Name:        staff.Name,
+			UserId: user.Id,
+			Nip:    user.Nip,
 		},
 	})
 	res, err = token.SignedString(svc.jwtSecret)

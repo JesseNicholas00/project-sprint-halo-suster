@@ -3,7 +3,7 @@ package nip_test
 import (
 	"testing"
 
-	"github.com/JesseNicholas00/HaloSuster/utils/nip"
+	"github.com/JesseNicholas00/HaloSuster/types/nip"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
