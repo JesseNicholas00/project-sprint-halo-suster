@@ -19,7 +19,7 @@ func main() {
 
 	cfg, err := loadConfig()
 	if err != nil {
-		mainInitLogger.Error("%s", err)
+		mainInitLogger.Error(err.Error())
 	}
 
 	logging.SetLogLevel(cfg.logLevel)
@@ -41,7 +41,7 @@ func main() {
 
 	db, err := sqlx.Connect("postgres", cfg.dbString)
 	if err != nil {
-		mainInitLogger.Error("%s", err)
+		mainInitLogger.Error(err.Error())
 		return
 	}
 
