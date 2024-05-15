@@ -7,7 +7,7 @@ import (
 
 type statements struct {
 	createUser *sqlx.NamedStmt
-	findByNip  *sqlx.NamedStmt
+	findByNip  *sqlx.Stmt
 }
 
 func prepareStatements() statements {
@@ -36,13 +36,13 @@ func prepareStatements() statements {
 				image_url,
 				created_at
 		`),
-		findByNip: statementutil.MustPrepareNamed(`
+		findByNip: statementutil.MustPrepare(`
 			SELECT
 				*
 			FROM
 				users
 			WHERE
-				nip = :nip
+				nip = $1
 		`),
 	}
 }

@@ -21,13 +21,8 @@ func (repo *authRepostioryImpl) FindUserByNip(
 	}
 
 	rows, err := sess.
-		NamedStmt(ctx, repo.statements.findByNip).
-		QueryxContext(
-			ctx,
-			map[string]interface{}{
-				"nip": nip,
-			},
-		)
+		Stmt(ctx, repo.statements.findByNip).
+		QueryxContext(ctx, nip)
 
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
