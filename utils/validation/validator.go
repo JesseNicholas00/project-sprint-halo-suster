@@ -1,6 +1,8 @@
 package validation
 
 import (
+	"github.com/JesseNicholas00/HaloSuster/utils/validation/image"
+	"github.com/JesseNicholas00/HaloSuster/utils/validation/iso8601"
 	"github.com/JesseNicholas00/HaloSuster/utils/validation/nip"
 	"github.com/JesseNicholas00/HaloSuster/utils/validation/phone"
 	"github.com/go-playground/validator/v10"
@@ -31,6 +33,14 @@ var customFields = []customField{
 	{
 		Tag:       "nipIt",
 		Validator: nip.ValidateNipIt,
+	},
+	{
+		Tag:       "imageExt",
+		Validator: image.ValidateImageExtension,
+	},
+	{
+		Tag:       "iso8601",
+		Validator: iso8601.ValidateIso8601,
 	},
 }
 
