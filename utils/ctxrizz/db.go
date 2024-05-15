@@ -19,6 +19,23 @@ var txContextKey = txContextKeyType{}
 var noop = func() error {
 	return nil
 }
+var noopStmt = func(s *sqlx.Stmt) *sqlx.Stmt {
+	return s
+}
+var noopNamedStmt = func(s *sqlx.NamedStmt) *sqlx.NamedStmt {
+	return s
+}
+
+// ugly workaround for interface{} parameter
+func txStmt(tx *sqlx.Tx) func(s *sqlx.Stmt) *sqlx.Stmt {
+	return func(s *sqlx.Stmt) *sqlx.Stmt {
+		return tx.Stmtx(s)
+	}
+}
+
+func txNamedStmt(tx *sqlx.Tx) func(s *sqlx.NamedStmt) *sqlx.NamedStmt {
+	return tx.NamedStmt
+}
 
 func (cb *dbContextRizzerImpl) AppendTx(
 	ctx context.Context,
@@ -29,9 +46,11 @@ func (cb *dbContextRizzerImpl) AppendTx(
 	}
 
 	return context.WithValue(ctx, txContextKey, tx), transaction.DbSession{
-		Ext:      tx,
-		Commit:   tx.Commit,
-		Rollback: tx.Rollback,
+		Ext:       tx,
+		Stmt:      txStmt(tx),
+		NamedStmt: txNamedStmt(tx),
+		Commit:    tx.Commit,
+		Rollback:  tx.Rollback,
 	}, nil
 }
 
@@ -43,9 +62,11 @@ func (cb *dbContextRizzerImpl) GetOrAppendTx(
 		// commit and rollback should be done on the creating layer
 		// noop here
 		return ctx, transaction.DbSession{
-			Ext:      tx,
-			Commit:   noop,
-			Rollback: noop,
+			Ext:       tx,
+			Stmt:      txStmt(tx),
+			NamedStmt: txNamedStmt(tx),
+			Commit:    noop,
+			Rollback:  noop,
 		}, nil
 	}
 
@@ -60,15 +81,19 @@ func (cb *dbContextRizzerImpl) GetOrNoTx(
 		// commit and rollback should be done on the creating layer
 		// noop here
 		return ctx, transaction.DbSession{
-			Ext:      tx,
-			Commit:   noop,
-			Rollback: noop,
+			Ext:       tx,
+			Stmt:      txStmt(tx),
+			NamedStmt: txNamedStmt(tx),
+			Commit:    noop,
+			Rollback:  noop,
 		}, nil
 	}
 
 	return ctx, transaction.DbSession{
-		Ext:      cb.db,
-		Commit:   noop,
-		Rollback: noop,
+		Ext:       cb.db,
+		Stmt:      noopStmt,
+		NamedStmt: noopNamedStmt,
+		Commit:    noop,
+		Rollback:  noop,
 	}, nil
 }

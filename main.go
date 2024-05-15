@@ -6,6 +6,7 @@ import (
 	"github.com/JesseNicholas00/HaloSuster/middlewares"
 	"github.com/JesseNicholas00/HaloSuster/utils/logging"
 	"github.com/JesseNicholas00/HaloSuster/utils/migration"
+	"github.com/JesseNicholas00/HaloSuster/utils/statementutil"
 	"github.com/JesseNicholas00/HaloSuster/utils/validation"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
@@ -52,6 +53,9 @@ func main() {
 	db.SetMaxOpenConns(cfg.dbMaxOpenConns)
 	db.SetMaxIdleConns(cfg.dbMaxIdleConns)
 	db.SetConnMaxLifetime(cfg.dbMaxConnLifetime)
+
+	statementutil.SetUp(db)
+	defer statementutil.CleanUp()
 
 	defer db.Close()
 

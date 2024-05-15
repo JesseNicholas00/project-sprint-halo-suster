@@ -5,13 +5,15 @@ import (
 )
 
 type medicalRecordRepositoryImpl struct {
-	dbRizzer ctxrizz.DbContextRizzer
+	dbRizzer   ctxrizz.DbContextRizzer
+	statements statements
 }
 
 func NewMedicalRecordRepository(
 	dbRizzer ctxrizz.DbContextRizzer,
 ) MedicalRecordRepository {
 	return &medicalRecordRepositoryImpl{
-		dbRizzer: dbRizzer,
+		dbRizzer:   dbRizzer,
+		statements: prepareStatements(),
 	}
 }
