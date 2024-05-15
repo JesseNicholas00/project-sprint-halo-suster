@@ -15,33 +15,37 @@ import (
 )
 
 func main() {
-	mainInitLogger := logging.GetLogger("main", "init")
-
 	cfg, err := loadConfig()
 	if err != nil {
-		mainInitLogger.Error("%s", err)
+		logging.GetLogger("config").Error(err.Error())
 	}
 
 	logging.SetLogLevel(cfg.logLevel)
+
+	mainInitLogger := logging.GetLogger("main", "init")
 
 	mainInitLogger.Debug(fmt.Sprintf("%+v", cfg))
 
 	if cfg.migrateDownOnStart {
 		if err := migration.MigrateDown(cfg.dbString, "migrations"); err != nil {
-			mainInitLogger.Error("failed to migrate down db: %s", err)
+			mainInitLogger.Error(
+				fmt.Sprintf("failed to migrate down db: %s", err),
+			)
 			return
 		}
 	}
 	if cfg.migrateUpOnStart {
 		if err := migration.MigrateUp(cfg.dbString, "migrations"); err != nil {
-			mainInitLogger.Error("failed to migrate up db: %s", err)
+			mainInitLogger.Error(
+				fmt.Sprintf("failed to migrate up db: %s", err),
+			)
 			return
 		}
 	}
 
 	db, err := sqlx.Connect("postgres", cfg.dbString)
 	if err != nil {
-		mainInitLogger.Error("%s", err)
+		mainInitLogger.Error(err.Error())
 		return
 	}
 

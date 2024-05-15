@@ -11,8 +11,13 @@ type authController struct {
 }
 
 func (s *authController) Register(server *echo.Echo) error {
-	server.POST("/v1/staff/register", s.registerStaff)
-	server.POST("/v1/staff/login", s.loginStaff)
+	g := server.Group("/v1/user")
+
+	g.POST("/it/register", s.registerIt)
+	g.POST("/it/login", s.loginIt)
+
+	g.POST("/nurse/login", s.loginNurse)
+
 	return nil
 }
 

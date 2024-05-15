@@ -1,10 +1,11 @@
 package auth
 
-type Staff struct {
-	Id        string `db:"staff_id"`
-	Name      string `db:"staff_name"`
-	Phone     string `db:"staff_phone_number"`
-	Password  string `db:"staff_password"`
+type User struct {
+	Id        string `db:"user_id"`
+	Nip       int64  `db:"nip"`
+	Name      string `db:"name"`
+	Password  string `db:"password"`
+	Active    bool   `db:"active"`
+	ImageUrl  string `db:"image_url"`
 	CreatedAt string `db:"created_at"`
-	UpdatedAt string `db:"updated_at"`
 }

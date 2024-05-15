@@ -3,6 +3,6 @@ package auth
 import "context"
 
 type AuthRepository interface {
-	CreateStaff(ctx context.Context, staff Staff) (Staff, error)
-	FindStaffByPhone(ctx context.Context, phone string) (Staff, error)
+	CreateUser(ctx context.Context, user User) (User, error)
+	FindUserByNip(ctx context.Context, nip int64) (User, error)
 }

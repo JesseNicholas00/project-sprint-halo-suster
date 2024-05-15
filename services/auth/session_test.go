@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/JesseNicholas00/HaloSuster/repos/auth"
+	"github.com/JesseNicholas00/HaloSuster/types/nip"
 	"github.com/golang-jwt/jwt/v4"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -16,14 +17,14 @@ func TestGetSessionFromToken(t *testing.T) {
 		mockCtrl, service, _ := NewWithMockedRepo(t)
 		defer mockCtrl.Finish()
 
-		staff := auth.Staff{
-			Id:    "bread",
-			Name:  "firstname lastname",
-			Phone: "+621234567890",
+		user := auth.User{
+			Id:   "bread",
+			Nip:  nip.New(nip.RoleIt, nip.GenderMale, 2001, 1, 420),
+			Name: "firstname lastname",
 		}
 
 		Convey("And the token is valid", func() {
-			validToken, err := service.generateToken(staff)
+			validToken, err := service.generateToken(user)
 			So(err, ShouldBeNil)
 
 			Convey("Should return the correct user data", func() {
@@ -34,9 +35,8 @@ func TestGetSessionFromToken(t *testing.T) {
 				err := service.GetSessionFromToken(context.TODO(), req, &res)
 
 				So(err, ShouldBeNil)
-				So(res.Name, ShouldEqual, staff.Name)
-				So(res.UserId, ShouldEqual, staff.Id)
-				So(res.PhoneNumber, ShouldEqual, staff.Phone)
+				So(res.UserId, ShouldEqual, user.Id)
+				So(res.Nip, ShouldEqual, user.Nip)
 			})
 		})
 
@@ -62,9 +62,10 @@ func TestGetSessionFromToken(t *testing.T) {
 					),
 				},
 				Data: jwtSubClaims{
-					UserId:      staff.Id,
-					PhoneNumber: staff.Phone,
-					Name:        staff.Name,
+					UserId: user.Id,
+					Nip: nip.New(
+						nip.RoleIt, nip.GenderMale, 2001, 1, 420,
+					),
 				},
 			})
 			res, err := token.SignedString(service.jwtSecret)

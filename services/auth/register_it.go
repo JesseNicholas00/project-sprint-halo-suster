@@ -10,24 +10,23 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (svc *authServiceImpl) RegisterStaff(
+func (svc *authServiceImpl) RegisterIt(
 	ctx context.Context,
-	req RegisterStaffReq,
-	res *RegisterStaffRes,
+	req RegisterItReq,
+	res *RegisterItRes,
 ) error {
 	if err := ctx.Err(); err != nil {
 		return err
 	}
 
-	_, err := svc.repo.FindStaffByPhone(ctx, req.PhoneNumber)
+	_, err := svc.repo.FindUserByNip(ctx, req.Nip)
 
 	if err == nil {
-		// duplicate phone number
-		return ErrPhoneNumberAlreadyRegistered
+		return ErrNipAlreadyExists
 	}
 
-	if !errors.Is(err, auth.ErrPhoneNumberNotFound) {
-		// unexpected kind of error
+	// unexpected kind of error
+	if !errors.Is(err, auth.ErrNipNotFound) {
 		return errorutil.AddCurrentContext(err)
 	}
 
@@ -39,10 +38,11 @@ func (svc *authServiceImpl) RegisterStaff(
 		return errorutil.AddCurrentContext(err)
 	}
 
-	repoRes, err := svc.repo.CreateStaff(ctx, auth.Staff{
-		Id:       uuid.New().String(),
+	repoRes, err := svc.repo.CreateUser(ctx, auth.User{
+		Id:       uuid.NewString(),
+		Nip:      req.Nip,
 		Name:     req.Name,
-		Phone:    req.PhoneNumber,
+		Active:   true,
 		Password: string(cryptedPw),
 	})
 	if err != nil {
@@ -54,9 +54,9 @@ func (svc *authServiceImpl) RegisterStaff(
 		return errorutil.AddCurrentContext(err)
 	}
 
-	*res = RegisterStaffRes{
+	*res = RegisterItRes{
 		UserId:      repoRes.Id,
-		PhoneNumber: repoRes.Phone,
+		Nip:         repoRes.Nip,
 		Name:        repoRes.Name,
 		AccessToken: token,
 	}
