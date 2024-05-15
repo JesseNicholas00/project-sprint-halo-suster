@@ -16,9 +16,9 @@ type RegisterItRes struct {
 }
 
 type RegisterNurseReq struct {
-	Nip      int64  `json:"nip"      validate:"required,nip"`
-	Name     string `json:"name"     validate:"required,min=5,max=50"`
-	ImageUrl string `json:"password" validate:"required,imageExt"`
+	Nip      int64  `json:"nip"                 validate:"required,nip"`
+	Name     string `json:"name"                validate:"required,min=5,max=50"`
+	ImageUrl string `json:"identityCardScanImg" validate:"required,imageExt"`
 }
 
 type RegisterNurseRes struct {

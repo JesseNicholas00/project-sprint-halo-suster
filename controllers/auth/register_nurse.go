@@ -17,7 +17,7 @@ func (ctrl *authController) registerNurse(c echo.Context) error {
 		return err
 	}
 
-	if nip.GetRole(req.Nip) != nip.RoleIt {
+	if nip.GetRole(req.Nip) != nip.RoleNurse {
 		return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
 			"message": "wrong nip role",
 		})
