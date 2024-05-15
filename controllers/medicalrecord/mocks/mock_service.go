@@ -35,16 +35,16 @@ func (m *MockMedicalRecordService) EXPECT() *MockMedicalRecordServiceMockRecorde
 	return m.recorder
 }
 
-// CreatePatient mocks base method.
-func (m *MockMedicalRecordService) CreatePatient(arg0 context.Context, arg1 medicalrecord.CreatePatientReq, arg2 *medicalrecord.CreatePatientRes) error {
+// RegisterPatient mocks base method.
+func (m *MockMedicalRecordService) RegisterPatient(arg0 context.Context, arg1 medicalrecord.RegisterPatientReq, arg2 *medicalrecord.RegisterPatientRes) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreatePatient", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "RegisterPatient", arg0, arg1, arg2)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// CreatePatient indicates an expected call of CreatePatient.
-func (mr *MockMedicalRecordServiceMockRecorder) CreatePatient(arg0, arg1, arg2 interface{}) *gomock.Call {
+// RegisterPatient indicates an expected call of RegisterPatient.
+func (mr *MockMedicalRecordServiceMockRecorder) RegisterPatient(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreatePatient", reflect.TypeOf((*MockMedicalRecordService)(nil).CreatePatient), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterPatient", reflect.TypeOf((*MockMedicalRecordService)(nil).RegisterPatient), arg0, arg1, arg2)
 }

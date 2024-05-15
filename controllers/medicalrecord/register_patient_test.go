@@ -39,7 +39,7 @@ func TestRegisterPatientValid(t *testing.T) {
 		)
 
 		Convey("Should forward the request to the service layer", func() {
-			expectedReq := medicalrecord.CreatePatientReq{
+			expectedReq := medicalrecord.RegisterPatientReq{
 				IdentityNumber:  identityNumber,
 				PhoneNumber:     phoneNumber,
 				Name:            name,
@@ -50,7 +50,7 @@ func TestRegisterPatientValid(t *testing.T) {
 
 			service.
 				EXPECT().
-				CreatePatient(gomock.Any(), expectedReq, gomock.Any()).
+				RegisterPatient(gomock.Any(), expectedReq, gomock.Any()).
 				Return(nil).
 				Times(1)
 
@@ -114,7 +114,7 @@ func TestRegisterPatientInvalid(t *testing.T) {
 				}),
 			)
 
-			expectedReq := medicalrecord.CreatePatientReq{
+			expectedReq := medicalrecord.RegisterPatientReq{
 				IdentityNumber:  identityNumber,
 				PhoneNumber:     phoneNumber,
 				Name:            name,
@@ -125,7 +125,7 @@ func TestRegisterPatientInvalid(t *testing.T) {
 
 			service.
 				EXPECT().
-				CreatePatient(gomock.Any(), expectedReq, gomock.Any()).
+				RegisterPatient(gomock.Any(), expectedReq, gomock.Any()).
 				Return(medicalrecord.ErrDuplicateIdentityNumber).
 				Times(1)
 

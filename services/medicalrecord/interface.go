@@ -3,9 +3,9 @@ package medicalrecord
 import "context"
 
 type MedicalRecordService interface {
-	CreatePatient(
+	RegisterPatient(
 		ctx context.Context,
-		req CreatePatientReq,
-		res *CreatePatientRes,
+		req RegisterPatientReq,
+		res *RegisterPatientRes,
 	) error
 }

@@ -1,6 +1,6 @@
 package medicalrecord
 
-type CreatePatientReq struct {
+type RegisterPatientReq struct {
 	IdentityNumber  int64  `json:"identityNumber"      validate:"required,intlen=16"`
 	PhoneNumber     string `json:"phoneNumber"         validate:"required,phoneNum"`
 	Name            string `json:"name"                validate:"required,min=3,max=30"`
@@ -9,5 +9,5 @@ type CreatePatientReq struct {
 	IdentityCardImg string `json:"identityCardScanImg" validate:"required,url,imageExt"`
 }
 
-type CreatePatientRes struct {
+type RegisterPatientRes struct {
 }

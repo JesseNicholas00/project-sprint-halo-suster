@@ -11,13 +11,13 @@ import (
 )
 
 func (s *medicalRecordController) registerPatient(c echo.Context) error {
-	var req medicalrecord.CreatePatientReq
+	var req medicalrecord.RegisterPatientReq
 	if err := request.BindAndValidate(c, &req); err != nil {
 		return err
 	}
 
-	var res medicalrecord.CreatePatientRes
-	err := s.service.CreatePatient(c.Request().Context(), req, &res)
+	var res medicalrecord.RegisterPatientRes
+	err := s.service.RegisterPatient(c.Request().Context(), req, &res)
 	if err != nil {
 		switch {
 		case errors.Is(err, medicalrecord.ErrDuplicateIdentityNumber):
