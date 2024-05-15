@@ -2,6 +2,7 @@ package validation
 
 import (
 	"github.com/JesseNicholas00/HaloSuster/utils/validation/image"
+	"github.com/JesseNicholas00/HaloSuster/utils/validation/intlen"
 	"github.com/JesseNicholas00/HaloSuster/utils/validation/iso8601"
 	"github.com/JesseNicholas00/HaloSuster/utils/validation/nip"
 	"github.com/JesseNicholas00/HaloSuster/utils/validation/phone"
@@ -41,6 +42,10 @@ var customFields = []customField{
 	{
 		Tag:       "iso8601",
 		Validator: iso8601.ValidateIso8601,
+	},
+	{
+		Tag:       "intlen",
+		Validator: intlen.ValidateIntLen,
 	},
 }
 
