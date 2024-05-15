@@ -19,7 +19,7 @@ func (repo *medicalRecordRepositoryImpl) CreatePatient(
 	if err != nil {
 		return errorutil.AddCurrentContext(err)
 	}
-	if _, err := sess.NamedStmt(repo.statements.createPatient).ExecContext(
+	if _, err := sess.NamedStmt(ctx, repo.statements.createPatient).ExecContext(
 		ctx,
 		patient,
 	); err != nil {

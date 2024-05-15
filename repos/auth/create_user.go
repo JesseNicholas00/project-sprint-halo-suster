@@ -22,7 +22,7 @@ func (repo *authRepostioryImpl) CreateUser(
 	}
 
 	rows, err := sess.
-		NamedStmt(repo.statements.createUser).
+		NamedStmt(ctx, repo.statements.createUser).
 		QueryxContext(ctx, user)
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok && pqErr.Code == "23505" {

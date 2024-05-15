@@ -19,22 +19,24 @@ var txContextKey = txContextKeyType{}
 var noop = func() error {
 	return nil
 }
-var noopStmt = func(s *sqlx.Stmt) *sqlx.Stmt {
+var noopStmt = func(_ context.Context, s *sqlx.Stmt) *sqlx.Stmt {
 	return s
 }
-var noopNamedStmt = func(s *sqlx.NamedStmt) *sqlx.NamedStmt {
+var noopNamedStmt = func(_ context.Context, s *sqlx.NamedStmt) *sqlx.NamedStmt {
 	return s
 }
 
 // ugly workaround for interface{} parameter
-func txStmt(tx *sqlx.Tx) func(s *sqlx.Stmt) *sqlx.Stmt {
-	return func(s *sqlx.Stmt) *sqlx.Stmt {
-		return tx.Stmtx(s)
+func txStmt(tx *sqlx.Tx) func(context.Context, *sqlx.Stmt) *sqlx.Stmt {
+	return func(c context.Context, s *sqlx.Stmt) *sqlx.Stmt {
+		return tx.StmtxContext(c, s)
 	}
 }
 
-func txNamedStmt(tx *sqlx.Tx) func(s *sqlx.NamedStmt) *sqlx.NamedStmt {
-	return tx.NamedStmt
+func txNamedStmt(
+	tx *sqlx.Tx,
+) func(context.Context, *sqlx.NamedStmt) *sqlx.NamedStmt {
+	return tx.NamedStmtContext
 }
 
 func (cb *dbContextRizzerImpl) AppendTx(
