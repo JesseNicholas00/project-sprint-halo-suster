@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/HaloSuster/controllers/auth/mocks"
+	"github.com/JesseNicholas00/HaloSuster/middlewares"
 	"github.com/golang/mock/gomock"
 	"github.com/labstack/echo/v4"
 	. "github.com/smartystreets/goconvey/convey"
@@ -22,6 +23,7 @@ func NewControllerWithMockedService(
 	mockedService = mocks.NewMockAuthService(mockCtrl)
 	controller = NewAuthController(
 		mockedService,
+		middlewares.NewNoopMiddleware(),
 	).(*authController)
 	return
 }

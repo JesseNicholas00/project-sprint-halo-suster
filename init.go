@@ -38,7 +38,8 @@ func initControllers(
 		cfg.jwtSecretKey,
 		cfg.bcryptSaltCost,
 	)
-	authCtrl := authCtrl.NewAuthController(authSvc)
+	authMwIt := middlewares.NewAuthMiddleware(authSvc, nip.RoleIt)
+	authCtrl := authCtrl.NewAuthController(authSvc, authMwIt)
 	ctrls = append(ctrls, authCtrl)
 
 	authMwEither := middlewares.NewAuthMiddleware(

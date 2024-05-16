@@ -76,3 +76,17 @@ func (mr *MockAuthServiceMockRecorder) RegisterIt(arg0, arg1, arg2 interface{}) 
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterIt", reflect.TypeOf((*MockAuthService)(nil).RegisterIt), arg0, arg1, arg2)
 }
+
+// RegisterNurse mocks base method.
+func (m *MockAuthService) RegisterNurse(arg0 context.Context, arg1 auth.RegisterNurseReq, arg2 *auth.RegisterNurseRes) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RegisterNurse", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RegisterNurse indicates an expected call of RegisterNurse.
+func (mr *MockAuthServiceMockRecorder) RegisterNurse(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterNurse", reflect.TypeOf((*MockAuthService)(nil).RegisterNurse), arg0, arg1, arg2)
+}

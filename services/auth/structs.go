@@ -15,6 +15,18 @@ type RegisterItRes struct {
 	AccessToken string `json:"accessToken"`
 }
 
+type RegisterNurseReq struct {
+	Nip      int64  `json:"nip"                 validate:"required,nip"`
+	Name     string `json:"name"                validate:"required,min=5,max=50"`
+	ImageUrl string `json:"identityCardScanImg" validate:"required,imageExt"`
+}
+
+type RegisterNurseRes struct {
+	UserId string `json:"userId"`
+	Nip    int64  `json:"nip"`
+	Name   string `json:"name"`
+}
+
 type LoginReq struct {
 	Nip      int64  `json:"nip"      validate:"required,nip"`
 	Password string `json:"password" validate:"required,min=5,max=33"`
