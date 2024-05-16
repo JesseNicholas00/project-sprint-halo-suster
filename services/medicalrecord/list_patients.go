@@ -23,7 +23,7 @@ func (svc *medicalRecordServiceImpl) ListPatients(
 		Offset:         *req.Offset,
 		Name:           req.Name,
 		PhoneNumber:    req.PhoneNumber,
-		CreatedAtSort:  req.CreatedAt,
+		CreatedAtSort:  req.CreatedAtSort,
 	})
 	if err != nil {
 		return errorutil.AddCurrentContext(err)

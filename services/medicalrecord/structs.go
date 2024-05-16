@@ -18,7 +18,7 @@ type ListPatientsReq struct {
 	Offset         *int    `query:"offset"`
 	Name           *string `query:"name"`
 	PhoneNumber    *string `query:"phoneNumber"`
-	CreatedAt      *string `query:"createdAt"`
+	CreatedAtSort  *string `query:"createdAt"`
 }
 
 type ListPatientsRes struct {

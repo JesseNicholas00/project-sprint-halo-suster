@@ -16,9 +16,9 @@ func (ctrl *medicalRecordController) listPatients(c echo.Context) error {
 		return err
 	}
 
-	if req.CreatedAt != nil {
-		if *req.CreatedAt != "asc" && *req.CreatedAt != "desc" {
-			req.CreatedAt = nil
+	if req.CreatedAtSort != nil {
+		if *req.CreatedAtSort != "asc" && *req.CreatedAtSort != "desc" {
+			req.CreatedAtSort = nil
 		}
 	}
 	if req.Limit == nil {
