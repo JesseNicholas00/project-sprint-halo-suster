@@ -6,6 +6,7 @@ import (
 
 	"github.com/JesseNicholas00/HaloSuster/repos/medicalrecord"
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
+	"github.com/JesseNicholas00/HaloSuster/utils/helper"
 )
 
 func (svc *medicalRecordServiceImpl) RegisterPatient(
@@ -20,7 +21,8 @@ func (svc *medicalRecordServiceImpl) RegisterPatient(
 	if err := svc.repo.CreatePatient(ctx, medicalrecord.Patient{
 		IdentityNumber: req.IdentityNumber,
 		PhoneNumber:    req.PhoneNumber,
-		BirthDate:      req.BirthDate,
+		Name:           req.Name,
+		BirthDate:      helper.MustParseDateOnly(req.BirthDate),
 		Gender:         req.Gender,
 		ImageUrl:       req.IdentityCardImg,
 	}); err != nil {

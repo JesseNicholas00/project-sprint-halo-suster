@@ -4,4 +4,5 @@ import "context"
 
 type MedicalRecordRepository interface {
 	CreatePatient(ctx context.Context, patient Patient) error
+	ListPatients(ctx context.Context, filter PatientFilter) ([]Patient, error)
 }

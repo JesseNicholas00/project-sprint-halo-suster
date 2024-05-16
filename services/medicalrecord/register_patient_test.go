@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/HaloSuster/repos/medicalrecord"
+	"github.com/JesseNicholas00/HaloSuster/utils/helper"
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -33,7 +34,8 @@ func TestRegisterPatient(t *testing.T) {
 	expectedRepoReq := medicalrecord.Patient{
 		IdentityNumber: identityNumber,
 		PhoneNumber:    phoneNumber,
-		BirthDate:      birthDate,
+		Name:           name,
+		BirthDate:      helper.MustParseDateOnly(birthDate),
 		Gender:         gender,
 		ImageUrl:       identityCardImg,
 	}
