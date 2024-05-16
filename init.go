@@ -37,7 +37,6 @@ func initControllers(
 		authRepo,
 		cfg.jwtSecretKey,
 		cfg.bcryptSaltCost,
-		dbRizzer,
 	)
 	authMwIt := middlewares.NewAuthMiddleware(authSvc, nip.RoleIt)
 	authCtrl := authCtrl.NewAuthController(authSvc, authMwIt)

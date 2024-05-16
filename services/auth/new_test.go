@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/HaloSuster/services/auth/mocks"
-	"github.com/JesseNicholas00/HaloSuster/utils/ctxrizz"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -23,7 +22,6 @@ func NewWithMockedRepo(
 		mockedRepo,
 		"testKey",
 		8,
-		ctxrizz.NewDbContextNoopRizzer(),
 	).(*authServiceImpl)
 	return
 }
