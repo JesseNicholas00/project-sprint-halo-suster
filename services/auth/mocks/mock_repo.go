@@ -35,19 +35,19 @@ func (m *MockAuthRepository) EXPECT() *MockAuthRepositoryMockRecorder {
 	return m.recorder
 }
 
-// ActivateUserByUserId mocks base method.
-func (m *MockAuthRepository) ActivateUserByUserId(arg0 context.Context, arg1 auth.ActivateUserReq) (auth.User, error) {
+// ActivateNurseByUserId mocks base method.
+func (m *MockAuthRepository) ActivateNurseByUserId(arg0 context.Context, arg1 auth.ActivateUserReq) (auth.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ActivateUserByUserId", arg0, arg1)
+	ret := m.ctrl.Call(m, "ActivateNurseByUserId", arg0, arg1)
 	ret0, _ := ret[0].(auth.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ActivateUserByUserId indicates an expected call of ActivateUserByUserId.
-func (mr *MockAuthRepositoryMockRecorder) ActivateUserByUserId(arg0, arg1 interface{}) *gomock.Call {
+// ActivateNurseByUserId indicates an expected call of ActivateNurseByUserId.
+func (mr *MockAuthRepositoryMockRecorder) ActivateNurseByUserId(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActivateUserByUserId", reflect.TypeOf((*MockAuthRepository)(nil).ActivateUserByUserId), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActivateNurseByUserId", reflect.TypeOf((*MockAuthRepository)(nil).ActivateNurseByUserId), arg0, arg1)
 }
 
 // CreateUser mocks base method.

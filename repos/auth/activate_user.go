@@ -6,7 +6,7 @@ import (
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
 )
 
-func (repo *authRepositoryImpl) ActivateUserByUserId(
+func (repo *authRepositoryImpl) ActivateNurseByUserId(
 	ctx context.Context,
 	req ActivateUserReq,
 ) (res User, err error) {
@@ -21,7 +21,7 @@ func (repo *authRepositoryImpl) ActivateUserByUserId(
 	}
 
 	rows, err := sess.
-		NamedStmt(ctx, repo.statements.createUser).
+		NamedStmt(ctx, repo.statements.activateNurseByUserId).
 		QueryxContext(ctx, req)
 
 	if err != nil {

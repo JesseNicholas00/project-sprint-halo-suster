@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	"errors"
 
 	"github.com/JesseNicholas00/HaloSuster/repos/auth"
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
@@ -25,16 +24,15 @@ func (svc *authServiceImpl) GrantAccessNurse(
 		return errorutil.AddCurrentContext(err)
 	}
 
-	_, err = svc.repo.ActivateUserByUserId(ctx, auth.ActivateUserReq{
+	_, err = svc.repo.ActivateNurseByUserId(ctx, auth.ActivateUserReq{
 		Id:       req.UserId,
 		Password: string(cryptedPw),
 	})
 
-	if err == auth.ErrUserIdNotFound {
-		return ErrUserNotFound
-	}
-
-	if !errors.Is(err, auth.ErrNipNotFound) {
+	if err != nil {
+		if err == auth.ErrUserIdNotFound {
+			return ErrUserNotFound
+		}
 		return errorutil.AddCurrentContext(err)
 	}
 
