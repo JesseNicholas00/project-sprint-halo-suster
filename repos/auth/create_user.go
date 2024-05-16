@@ -7,7 +7,7 @@ import (
 	"github.com/lib/pq"
 )
 
-func (repo *authRepostioryImpl) CreateUser(
+func (repo *authRepositoryImpl) CreateUser(
 	ctx context.Context,
 	user User,
 ) (res User, err error) {

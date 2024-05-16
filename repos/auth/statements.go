@@ -6,8 +6,9 @@ import (
 )
 
 type statements struct {
-	createUser *sqlx.NamedStmt
-	findByNip  *sqlx.Stmt
+	createUser           *sqlx.NamedStmt
+	findByNip            *sqlx.Stmt
+	activateUserByUserId *sqlx.Stmt
 }
 
 func prepareStatements() statements {
@@ -43,6 +44,11 @@ func prepareStatements() statements {
 				users
 			WHERE
 				nip = $1
+		`),
+		activateUserByUserId: statementutil.MustPrepare(`
+			UPDATE users
+			SET active = true
+			WHERE user_id = $1
 		`),
 	}
 }

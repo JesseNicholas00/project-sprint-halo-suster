@@ -20,6 +20,7 @@ func (ctrl *authController) Register(server *echo.Echo) error {
 
 	g.POST("/nurse/login", ctrl.loginNurse)
 	g.POST("/nurse/register", ctrl.registerNurse, ctrl.authMw.Process)
+	g.POST("/nurse/:userId/access", ctrl.grantAccessNurse, ctrl.authMw.Process)
 
 	return nil
 }
