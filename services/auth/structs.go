@@ -28,8 +28,8 @@ type RegisterNurseRes struct {
 }
 
 type GrantAccessNurseReq struct {
-	UserId   string `param:"userId" validate:"required,nipNurse,min=5,max=33"`
-	Password string `               validate:"required,min=5,max=33"          json:"password"`
+	UserId   string `param:"userId" validate:"required"`
+	Password string `               validate:"required,min=5,max=33" json:"password"`
 }
 
 type GrantAccessNurseRes struct {

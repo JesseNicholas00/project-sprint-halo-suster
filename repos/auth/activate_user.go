@@ -8,7 +8,7 @@ import (
 
 func (repo *authRepositoryImpl) ActivateUserByUserId(
 	ctx context.Context,
-	userId string,
+	req ActivateUserReq,
 ) (res User, err error) {
 	if err = ctx.Err(); err != nil {
 		return
@@ -21,8 +21,8 @@ func (repo *authRepositoryImpl) ActivateUserByUserId(
 	}
 
 	rows, err := sess.
-		Stmt(ctx, repo.statements.activateUserByUserId).
-		QueryxContext(ctx, userId)
+		NamedStmt(ctx, repo.statements.createUser).
+		QueryxContext(ctx, req)
 
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)

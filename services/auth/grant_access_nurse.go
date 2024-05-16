@@ -6,6 +6,7 @@ import (
 
 	"github.com/JesseNicholas00/HaloSuster/repos/auth"
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (svc *authServiceImpl) GrantAccessNurse(
@@ -16,8 +17,18 @@ func (svc *authServiceImpl) GrantAccessNurse(
 	if err := ctx.Err(); err != nil {
 		return err
 	}
+	cryptedPw, err := bcrypt.GenerateFromPassword(
+		[]byte(req.Password),
+		svc.bcryptCost,
+	)
+	if err != nil {
+		return errorutil.AddCurrentContext(err)
+	}
 
-	_, err := svc.repo.ActivateUserByUserId(ctx, req.UserId)
+	_, err = svc.repo.ActivateUserByUserId(ctx, auth.ActivateUserReq{
+		Id:       req.UserId,
+		Password: string(cryptedPw),
+	})
 
 	if err == auth.ErrUserIdNotFound {
 		return ErrUserNotFound
