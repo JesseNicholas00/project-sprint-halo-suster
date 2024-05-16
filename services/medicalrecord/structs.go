@@ -33,3 +33,13 @@ type ListPatientsResData struct {
 	Gender         string `json:"gender"`
 	CreatedAt      string `json:"createdAt"`
 }
+
+type CreateRecordReq struct {
+	CreatedById    string
+	IdentityNumber int64  `json:"identityNumber" validate:"required,intlen=16"`
+	Symptoms       string `json:"symptoms"       validate:"required,min=1,max=2000"`
+	Medications    string `json:"medications"    validate:"required,min=1,max=2000"`
+}
+
+type CreateRecordRes struct {
+}

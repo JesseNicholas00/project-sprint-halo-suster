@@ -20,3 +20,16 @@ type PatientFilter struct {
 	PhoneNumber    *string
 	CreatedAtSort  *string
 }
+
+type Record struct {
+	RecordId           int64     `db:"medical_record_id"`
+	PatientId          int64     `db:"patient_identity_number"`
+	PatientPhoneNumber string    `db:"patient_phone_number"`
+	PatientName        string    `db:"patient_name"`
+	PatientBirthDate   time.Time `db:"patient_birth_date"`
+	PatientGender      string    `db:"patient_gender"`
+	Symptoms           string    `db:"symptoms"`
+	Medications        string    `db:"medications"`
+	CreatedByUserId    string    `db:"created_by"`
+	CreatedAt          time.Time `db:"created_at"`
+}

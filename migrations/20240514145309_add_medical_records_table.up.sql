@@ -3,10 +3,10 @@ CREATE TABLE medical_records (
     patient_identity_number BIGINT,
     patient_phone_number TEXT,
     patient_name TEXT,
-    patient_birth_date TEXT,
+    patient_birth_date TIMESTAMP,
     patient_gender TEXT,
     symptoms TEXT,
-    medication TEXT,
+    medications TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by TEXT
 );
