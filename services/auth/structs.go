@@ -35,6 +35,13 @@ type GrantAccessNurseReq struct {
 type GrantAccessNurseRes struct {
 }
 
+type DeleteNurseReq struct {
+	UserId string `param:"userId" validate:"required"`
+}
+
+type DeleteNurseRes struct {
+}
+
 type LoginReq struct {
 	Nip      int64  `json:"nip"      validate:"required,nip"`
 	Password string `json:"password" validate:"required,min=5,max=33"`

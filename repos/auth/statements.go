@@ -9,6 +9,7 @@ type statements struct {
 	createUser            *sqlx.NamedStmt
 	findByNip             *sqlx.Stmt
 	activateNurseByUserId *sqlx.NamedStmt
+	deleteNurseByUserId   *sqlx.Stmt
 }
 
 func prepareStatements() statements {
@@ -60,6 +61,12 @@ func prepareStatements() statements {
 				active,
 				image_url,
 				created_at
+		`),
+		deleteNurseByUserId: statementutil.MustPrepare(`
+			DELETE FROM
+				users
+			WHERE
+				user_id = $1 AND nip < 6150000000000
 		`),
 	}
 }

@@ -35,6 +35,20 @@ func (m *MockAuthService) EXPECT() *MockAuthServiceMockRecorder {
 	return m.recorder
 }
 
+// DeleteNurse mocks base method.
+func (m *MockAuthService) DeleteNurse(arg0 context.Context, arg1 auth.DeleteNurseReq, arg2 *auth.DeleteNurseRes) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteNurse", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteNurse indicates an expected call of DeleteNurse.
+func (mr *MockAuthServiceMockRecorder) DeleteNurse(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNurse", reflect.TypeOf((*MockAuthService)(nil).DeleteNurse), arg0, arg1, arg2)
+}
+
 // GetSessionFromToken mocks base method.
 func (m *MockAuthService) GetSessionFromToken(arg0 context.Context, arg1 auth.GetSessionFromTokenReq, arg2 *auth.GetSessionFromTokenRes) error {
 	m.ctrl.T.Helper()
