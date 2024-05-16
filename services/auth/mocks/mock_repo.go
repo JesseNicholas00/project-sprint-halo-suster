@@ -36,7 +36,7 @@ func (m *MockAuthRepository) EXPECT() *MockAuthRepositoryMockRecorder {
 }
 
 // ActivateUserByUserId mocks base method.
-func (m *MockAuthRepository) ActivateUserByUserId(arg0 context.Context, arg1 string) (auth.User, error) {
+func (m *MockAuthRepository) ActivateUserByUserId(arg0 context.Context, arg1 auth.ActivateUserReq) (auth.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ActivateUserByUserId", arg0, arg1)
 	ret0, _ := ret[0].(auth.User)
