@@ -48,3 +48,18 @@ func (mr *MockMedicalRecordRepositoryMockRecorder) CreatePatient(arg0, arg1 inte
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreatePatient", reflect.TypeOf((*MockMedicalRecordRepository)(nil).CreatePatient), arg0, arg1)
 }
+
+// ListPatients mocks base method.
+func (m *MockMedicalRecordRepository) ListPatients(arg0 context.Context, arg1 medicalrecord.PatientFilter) ([]medicalrecord.Patient, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListPatients", arg0, arg1)
+	ret0, _ := ret[0].([]medicalrecord.Patient)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListPatients indicates an expected call of ListPatients.
+func (mr *MockMedicalRecordRepositoryMockRecorder) ListPatients(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListPatients", reflect.TypeOf((*MockMedicalRecordRepository)(nil).ListPatients), arg0, arg1)
+}

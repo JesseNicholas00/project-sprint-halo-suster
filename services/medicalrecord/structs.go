@@ -11,3 +11,25 @@ type RegisterPatientReq struct {
 
 type RegisterPatientRes struct {
 }
+
+type ListPatientsReq struct {
+	IdentityNumber *int64  `query:"identityNumber"`
+	Limit          *int    `query:"limit"`
+	Offset         *int    `query:"offset"`
+	Name           *string `query:"name"`
+	PhoneNumber    *string `query:"phoneNumber"`
+	CreatedAt      *string `query:"createdAt"`
+}
+
+type ListPatientsRes struct {
+	Data []ListPatientsResData
+}
+
+type ListPatientsResData struct {
+	IdentityNumber int64  `json:"identityNumber"`
+	PhoneNumber    string `json:"phoneNumber"`
+	Name           string `json:"name"`
+	BirthDate      string `json:"birthDate"`
+	Gender         string `json:"gender"`
+	CreatedAt      string `json:"createdAt"`
+}

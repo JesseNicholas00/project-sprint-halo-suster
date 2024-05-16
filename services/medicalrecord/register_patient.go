@@ -20,6 +20,7 @@ func (svc *medicalRecordServiceImpl) RegisterPatient(
 	if err := svc.repo.CreatePatient(ctx, medicalrecord.Patient{
 		IdentityNumber: req.IdentityNumber,
 		PhoneNumber:    req.PhoneNumber,
+		Name:           req.Name,
 		BirthDate:      req.BirthDate,
 		Gender:         req.Gender,
 		ImageUrl:       req.IdentityCardImg,

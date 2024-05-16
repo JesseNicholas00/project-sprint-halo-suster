@@ -33,6 +33,7 @@ func TestRegisterPatient(t *testing.T) {
 	expectedRepoReq := medicalrecord.Patient{
 		IdentityNumber: identityNumber,
 		PhoneNumber:    phoneNumber,
+		Name:           name,
 		BirthDate:      birthDate,
 		Gender:         gender,
 		ImageUrl:       identityCardImg,

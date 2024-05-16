@@ -16,6 +16,7 @@ func (ctrl *medicalRecordController) Register(server *echo.Echo) error {
 	g := server.Group("/v1/medical", ctrl.authMw.Process)
 
 	g.POST("/patient", ctrl.registerPatient)
+	g.GET("/patient", ctrl.listPatients)
 
 	return nil
 }
