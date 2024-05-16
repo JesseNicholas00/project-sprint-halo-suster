@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/HaloSuster/repos/medicalrecord"
+	"github.com/JesseNicholas00/HaloSuster/utils/helper"
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -34,7 +35,7 @@ func TestRegisterPatient(t *testing.T) {
 		IdentityNumber: identityNumber,
 		PhoneNumber:    phoneNumber,
 		Name:           name,
-		BirthDate:      birthDate,
+		BirthDate:      helper.MustParseDateOnly(birthDate),
 		Gender:         gender,
 		ImageUrl:       identityCardImg,
 	}

@@ -2,6 +2,7 @@ package medicalrecord
 
 import (
 	"context"
+	"time"
 
 	"github.com/JesseNicholas00/HaloSuster/repos/medicalrecord"
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
@@ -22,7 +23,7 @@ func (svc *medicalRecordServiceImpl) ListPatients(
 		Offset:         *req.Offset,
 		Name:           req.Name,
 		PhoneNumber:    req.PhoneNumber,
-		CreatedAt:      req.CreatedAt,
+		CreatedAtSort:  req.CreatedAt,
 	})
 	if err != nil {
 		return errorutil.AddCurrentContext(err)
@@ -33,9 +34,9 @@ func (svc *medicalRecordServiceImpl) ListPatients(
 			IdentityNumber: patient.IdentityNumber,
 			PhoneNumber:    patient.PhoneNumber,
 			Name:           patient.Name,
-			BirthDate:      patient.BirthDate,
+			BirthDate:      patient.BirthDate.Format(time.DateOnly),
 			Gender:         patient.Gender,
-			CreatedAt:      patient.CreatedAt,
+			CreatedAt:      patient.CreatedAt.Format(time.RFC3339),
 		})
 	}
 

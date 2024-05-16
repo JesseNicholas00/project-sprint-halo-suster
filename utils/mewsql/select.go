@@ -104,8 +104,11 @@ func WithWhere(
 ) SelectOption {
 	res := SelectOption{
 		kind:                 selectOptionWhere,
-		statement:            "WHERE",
 		placeholderSeparator: " AND ",
+	}
+
+	if len(conditions) > 0 {
+		res.statement = "WHERE"
 	}
 
 	for _, condition := range conditions {

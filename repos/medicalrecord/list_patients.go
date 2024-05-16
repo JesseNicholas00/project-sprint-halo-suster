@@ -47,10 +47,10 @@ func (repo *medicalRecordRepositoryImpl) ListPatients(
 		mewsql.WithOffset(filter.Offset),
 	}
 
-	if filter.CreatedAt != nil {
+	if filter.CreatedAtSort != nil {
 		options = append(
 			options,
-			mewsql.WithOrderBy("created_at", *filter.CreatedAt),
+			mewsql.WithOrderBy("created_at", *filter.CreatedAtSort),
 		)
 	}
 
@@ -66,7 +66,7 @@ func (repo *medicalRecordRepositoryImpl) ListPatients(
 		return
 	}
 
-	rows, err := sess.Ext.QueryxContext(ctx, sql, args)
+	rows, err := sess.Ext.QueryxContext(ctx, sql, args...)
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
 		return

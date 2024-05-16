@@ -6,6 +6,7 @@ import (
 
 	"github.com/JesseNicholas00/HaloSuster/repos/medicalrecord"
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
+	"github.com/JesseNicholas00/HaloSuster/utils/helper"
 )
 
 func (svc *medicalRecordServiceImpl) RegisterPatient(
@@ -21,7 +22,7 @@ func (svc *medicalRecordServiceImpl) RegisterPatient(
 		IdentityNumber: req.IdentityNumber,
 		PhoneNumber:    req.PhoneNumber,
 		Name:           req.Name,
-		BirthDate:      req.BirthDate,
+		BirthDate:      helper.MustParseDateOnly(req.BirthDate),
 		Gender:         req.Gender,
 		ImageUrl:       req.IdentityCardImg,
 	}); err != nil {

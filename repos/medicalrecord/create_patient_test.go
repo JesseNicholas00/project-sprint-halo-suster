@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/HaloSuster/repos/medicalrecord"
+	"github.com/JesseNicholas00/HaloSuster/utils/helper"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -16,10 +17,12 @@ func TestCreatePatient(t *testing.T) {
 	Convey("When inserting new patient", t, func() {
 		repo := NewWithTestDatabase(t)
 
+		birthDate := helper.MustParseDateOnly("1998-01-01")
+
 		req := medicalrecord.Patient{
 			IdentityNumber: int64(1234567812345678),
 			PhoneNumber:    "+621234567890",
-			BirthDate:      "1998-01-01",
+			BirthDate:      birthDate,
 			Gender:         "female",
 			ImageUrl:       "https://bread.com/bread.png",
 		}
@@ -30,10 +33,12 @@ func TestCreatePatient(t *testing.T) {
 		})
 
 		Convey("When inserting patient with duplicate identityNumber", func() {
+			birthDate := helper.MustParseDateOnly("1992-11-07")
+
 			reqDupe := medicalrecord.Patient{
 				IdentityNumber: req.IdentityNumber,
 				PhoneNumber:    "+620987654321",
-				BirthDate:      "1992-11-07",
+				BirthDate:      birthDate,
 				Gender:         "male",
 				ImageUrl:       "https://funny.com/xd.png",
 			}
