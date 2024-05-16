@@ -23,4 +23,19 @@ type AuthService interface {
 		req RegisterNurseReq,
 		res *RegisterNurseRes,
 	) error
+	GrantAccessNurse(
+		ctx context.Context,
+		req GrantAccessNurseReq,
+		res *GrantAccessNurseRes,
+	) error
+	UpdateNurse(
+		ctx context.Context,
+		req UpdateNurseReq,
+		res *UpdateNurseRes,
+	) error
+	DeleteNurse(
+		ctx context.Context,
+		req DeleteNurseReq,
+		res *DeleteNurseRes,
+	) error
 }

@@ -6,9 +6,9 @@ import (
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
 )
 
-func (repo *authRepositoryImpl) FindUserByNip(
+func (repo *authRepositoryImpl) ActivateUserByUserId(
 	ctx context.Context,
-	nip int64,
+	req ActivateUserReq,
 ) (res User, err error) {
 	if err = ctx.Err(); err != nil {
 		return
@@ -21,8 +21,8 @@ func (repo *authRepositoryImpl) FindUserByNip(
 	}
 
 	rows, err := sess.
-		Stmt(ctx, repo.statements.findByNip).
-		QueryxContext(ctx, nip)
+		NamedStmt(ctx, repo.statements.createUser).
+		QueryxContext(ctx, req)
 
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
@@ -39,7 +39,7 @@ func (repo *authRepositoryImpl) FindUserByNip(
 	}
 
 	if res.Id == "" {
-		err = ErrNipNotFound
+		err = ErrUserIdNotFound
 		return
 	}
 

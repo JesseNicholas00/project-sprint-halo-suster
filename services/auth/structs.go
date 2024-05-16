@@ -27,6 +27,30 @@ type RegisterNurseRes struct {
 	Name   string `json:"name"`
 }
 
+type GrantAccessNurseReq struct {
+	UserId   string `param:"userId" validate:"required"`
+	Password string `               validate:"required,min=5,max=33" json:"password"`
+}
+
+type GrantAccessNurseRes struct {
+}
+
+type UpdateNurseReq struct {
+	UserId string `param:"userId" validate:"required"`
+	Nip    int64  `               validate:"required,nip"          json:"nip"`
+	Name   string `               validate:"required,min=5,max=50" json:"name"`
+}
+
+type UpdateNurseRes struct {
+}
+
+type DeleteNurseReq struct {
+	UserId string `param:"userId" validate:"required"`
+}
+
+type DeleteNurseRes struct {
+}
+
 type LoginReq struct {
 	Nip      int64  `json:"nip"      validate:"required,nip"`
 	Password string `json:"password" validate:"required,min=5,max=33"`

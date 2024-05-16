@@ -35,6 +35,20 @@ func (m *MockAuthService) EXPECT() *MockAuthServiceMockRecorder {
 	return m.recorder
 }
 
+// DeleteNurse mocks base method.
+func (m *MockAuthService) DeleteNurse(arg0 context.Context, arg1 auth.DeleteNurseReq, arg2 *auth.DeleteNurseRes) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteNurse", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteNurse indicates an expected call of DeleteNurse.
+func (mr *MockAuthServiceMockRecorder) DeleteNurse(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNurse", reflect.TypeOf((*MockAuthService)(nil).DeleteNurse), arg0, arg1, arg2)
+}
+
 // GetSessionFromToken mocks base method.
 func (m *MockAuthService) GetSessionFromToken(arg0 context.Context, arg1 auth.GetSessionFromTokenReq, arg2 *auth.GetSessionFromTokenRes) error {
 	m.ctrl.T.Helper()
@@ -47,6 +61,20 @@ func (m *MockAuthService) GetSessionFromToken(arg0 context.Context, arg1 auth.Ge
 func (mr *MockAuthServiceMockRecorder) GetSessionFromToken(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSessionFromToken", reflect.TypeOf((*MockAuthService)(nil).GetSessionFromToken), arg0, arg1, arg2)
+}
+
+// GrantAccessNurse mocks base method.
+func (m *MockAuthService) GrantAccessNurse(arg0 context.Context, arg1 auth.GrantAccessNurseReq, arg2 *auth.GrantAccessNurseRes) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GrantAccessNurse", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// GrantAccessNurse indicates an expected call of GrantAccessNurse.
+func (mr *MockAuthServiceMockRecorder) GrantAccessNurse(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GrantAccessNurse", reflect.TypeOf((*MockAuthService)(nil).GrantAccessNurse), arg0, arg1, arg2)
 }
 
 // Login mocks base method.
@@ -89,4 +117,18 @@ func (m *MockAuthService) RegisterNurse(arg0 context.Context, arg1 auth.Register
 func (mr *MockAuthServiceMockRecorder) RegisterNurse(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterNurse", reflect.TypeOf((*MockAuthService)(nil).RegisterNurse), arg0, arg1, arg2)
+}
+
+// UpdateNurse mocks base method.
+func (m *MockAuthService) UpdateNurse(arg0 context.Context, arg1 auth.UpdateNurseReq, arg2 *auth.UpdateNurseRes) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateNurse", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateNurse indicates an expected call of UpdateNurse.
+func (mr *MockAuthServiceMockRecorder) UpdateNurse(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNurse", reflect.TypeOf((*MockAuthService)(nil).UpdateNurse), arg0, arg1, arg2)
 }

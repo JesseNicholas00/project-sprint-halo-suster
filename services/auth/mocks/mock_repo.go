@@ -35,6 +35,21 @@ func (m *MockAuthRepository) EXPECT() *MockAuthRepositoryMockRecorder {
 	return m.recorder
 }
 
+// ActivateUserByUserId mocks base method.
+func (m *MockAuthRepository) ActivateUserByUserId(arg0 context.Context, arg1 auth.ActivateUserReq) (auth.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ActivateUserByUserId", arg0, arg1)
+	ret0, _ := ret[0].(auth.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ActivateUserByUserId indicates an expected call of ActivateUserByUserId.
+func (mr *MockAuthRepositoryMockRecorder) ActivateUserByUserId(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActivateUserByUserId", reflect.TypeOf((*MockAuthRepository)(nil).ActivateUserByUserId), arg0, arg1)
+}
+
 // CreateUser mocks base method.
 func (m *MockAuthRepository) CreateUser(arg0 context.Context, arg1 auth.User) (auth.User, error) {
 	m.ctrl.T.Helper()
@@ -50,6 +65,20 @@ func (mr *MockAuthRepositoryMockRecorder) CreateUser(arg0, arg1 interface{}) *go
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockAuthRepository)(nil).CreateUser), arg0, arg1)
 }
 
+// DeleteNurse mocks base method.
+func (m *MockAuthRepository) DeleteNurse(arg0 context.Context, arg1 string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteNurse", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteNurse indicates an expected call of DeleteNurse.
+func (mr *MockAuthRepositoryMockRecorder) DeleteNurse(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNurse", reflect.TypeOf((*MockAuthRepository)(nil).DeleteNurse), arg0, arg1)
+}
+
 // FindUserByNip mocks base method.
 func (m *MockAuthRepository) FindUserByNip(arg0 context.Context, arg1 int64) (auth.User, error) {
 	m.ctrl.T.Helper()
@@ -63,4 +92,18 @@ func (m *MockAuthRepository) FindUserByNip(arg0 context.Context, arg1 int64) (au
 func (mr *MockAuthRepositoryMockRecorder) FindUserByNip(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByNip", reflect.TypeOf((*MockAuthRepository)(nil).FindUserByNip), arg0, arg1)
+}
+
+// UpdateNurse mocks base method.
+func (m *MockAuthRepository) UpdateNurse(arg0 context.Context, arg1 auth.User) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateNurse", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateNurse indicates an expected call of UpdateNurse.
+func (mr *MockAuthRepositoryMockRecorder) UpdateNurse(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNurse", reflect.TypeOf((*MockAuthRepository)(nil).UpdateNurse), arg0, arg1)
 }

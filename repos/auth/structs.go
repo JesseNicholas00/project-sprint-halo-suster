@@ -9,3 +9,8 @@ type User struct {
 	ImageUrl  string `db:"image_url"`
 	CreatedAt string `db:"created_at"`
 }
+
+type ActivateUserReq struct {
+	Id       string `db:"user_id"`
+	Password string `db:"password"`
+}

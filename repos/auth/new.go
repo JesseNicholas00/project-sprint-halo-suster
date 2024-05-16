@@ -4,13 +4,13 @@ import (
 	"github.com/JesseNicholas00/HaloSuster/utils/ctxrizz"
 )
 
-type authRepostioryImpl struct {
+type authRepositoryImpl struct {
 	dbRizzer   ctxrizz.DbContextRizzer
 	statements statements
 }
 
 func NewAuthRepository(dbRizzer ctxrizz.DbContextRizzer) AuthRepository {
-	return &authRepostioryImpl{
+	return &authRepositoryImpl{
 		dbRizzer:   dbRizzer,
 		statements: prepareStatements(),
 	}
