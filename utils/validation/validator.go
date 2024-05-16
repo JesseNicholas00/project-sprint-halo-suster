@@ -1,6 +1,9 @@
 package validation
 
 import (
+	"reflect"
+	"strings"
+
 	"github.com/JesseNicholas00/HaloSuster/utils/validation/image"
 	"github.com/JesseNicholas00/HaloSuster/utils/validation/intlen"
 	"github.com/JesseNicholas00/HaloSuster/utils/validation/iso8601"
@@ -56,6 +59,14 @@ type customField struct {
 
 func NewEchoValidator() echo.Validator {
 	validator := validator.New(validator.WithRequiredStructEnabled())
+
+	validator.RegisterTagNameFunc(func(fld reflect.StructField) string {
+		name := strings.SplitN(fld.Tag.Get("json"), ",", 2)[0]
+		if name == "-" {
+			return ""
+		}
+		return name
+	})
 
 	for _, customField := range customFields {
 		validator.RegisterValidation(customField.Tag, customField.Validator)

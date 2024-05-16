@@ -8,11 +8,21 @@ import (
 
 func ConvertToErrList(err validator.ValidationErrors) (errors []string) {
 	for _, err := range err {
+		var validationTag string
+
+		tag := err.Tag()
+		param := err.Param()
+
+		if param != "" {
+			validationTag = fmt.Sprintf("%s=%s", tag, param)
+		} else {
+			validationTag = tag
+		}
+
 		curError := fmt.Sprintf(
-			"%s: validation failed on %s %s",
+			"%s: validation failed on %s",
 			err.Field(),
-			err.Tag(),
-			err.Param(),
+			validationTag,
 		)
 		errors = append(errors, curError)
 	}
