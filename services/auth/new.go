@@ -1,6 +1,8 @@
 package auth
 
-import "github.com/JesseNicholas00/HaloSuster/repos/auth"
+import (
+	"github.com/JesseNicholas00/HaloSuster/repos/auth"
+)
 
 type authServiceImpl struct {
 	repo       auth.AuthRepository

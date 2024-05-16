@@ -18,6 +18,10 @@ func NewWithMockedRepo(
 ) {
 	mockCtrl = gomock.NewController(t)
 	mockedRepo = mocks.NewMockAuthRepository(mockCtrl)
-	service = NewAuthService(mockedRepo, "testKey", 8).(*authServiceImpl)
+	service = NewAuthService(
+		mockedRepo,
+		"testKey",
+		8,
+	).(*authServiceImpl)
 	return
 }
