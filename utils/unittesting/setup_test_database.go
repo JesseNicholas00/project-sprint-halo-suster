@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/JesseNicholas00/HaloSuster/utils/migration"
+	"github.com/JesseNicholas00/HaloSuster/utils/statementutil"
 	"github.com/jmoiron/sqlx"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
@@ -49,5 +50,10 @@ func SetupTestDatabase(migrationsPath string, t *testing.T) *sqlx.DB {
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	statementutil.SetUp(db)
+
+	t.Cleanup(statementutil.CleanUp)
+
 	return db
 }

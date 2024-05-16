@@ -1,9 +1,15 @@
 package transaction
 
-import "github.com/jmoiron/sqlx"
+import (
+	"context"
+
+	"github.com/jmoiron/sqlx"
+)
 
 type DbSession struct {
-	Ext      sqlx.ExtContext
-	Commit   func() error
-	Rollback func() error
+	Ext       sqlx.ExtContext
+	Stmt      func(context.Context, *sqlx.Stmt) *sqlx.Stmt
+	NamedStmt func(context.Context, *sqlx.NamedStmt) *sqlx.NamedStmt
+	Commit    func() error
+	Rollback  func() error
 }

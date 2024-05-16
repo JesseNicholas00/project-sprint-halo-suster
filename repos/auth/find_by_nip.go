@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
-	"github.com/jmoiron/sqlx"
 )
 
 func (repo *authRepostioryImpl) FindUserByNip(
@@ -15,28 +14,15 @@ func (repo *authRepostioryImpl) FindUserByNip(
 		return
 	}
 
-	query := `
-		SELECT
-			*
-		FROM
-			users
-		WHERE
-			nip = :nip
-	`
 	ctx, sess, err := repo.dbRizzer.GetOrNoTx(ctx)
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
 		return
 	}
 
-	rows, err := sqlx.NamedQueryContext(
-		ctx,
-		sess.Ext,
-		query,
-		map[string]interface{}{
-			"nip": nip,
-		},
-	)
+	rows, err := sess.
+		Stmt(ctx, repo.statements.findByNip).
+		QueryxContext(ctx, nip)
 
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)
