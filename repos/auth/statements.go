@@ -9,6 +9,7 @@ type statements struct {
 	createUser            *sqlx.NamedStmt
 	findByNip             *sqlx.Stmt
 	activateNurseByUserId *sqlx.NamedStmt
+	updateNurseByNurseId  *sqlx.NamedStmt
 	deleteNurseByUserId   *sqlx.Stmt
 }
 
@@ -61,6 +62,14 @@ func prepareStatements() statements {
 				active,
 				image_url,
 				created_at
+		`),
+		updateNurseByNurseId: statementutil.MustPrepareNamed(`
+			UPDATE users
+			SET
+				nip = :nip,
+				name= :name
+			WHERE
+				user_id = :user_id AND nip < 6150000000000
 		`),
 		deleteNurseByUserId: statementutil.MustPrepare(`
 			DELETE FROM
