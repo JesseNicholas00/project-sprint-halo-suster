@@ -5,6 +5,7 @@ import (
 
 	"github.com/JesseNicholas00/HaloSuster/controllers"
 	authCtrl "github.com/JesseNicholas00/HaloSuster/controllers/auth"
+	imageCtrl "github.com/JesseNicholas00/HaloSuster/controllers/image"
 	medicalRecordCtrl "github.com/JesseNicholas00/HaloSuster/controllers/medicalrecord"
 	"github.com/JesseNicholas00/HaloSuster/middlewares"
 	authRepo "github.com/JesseNicholas00/HaloSuster/repos/auth"
@@ -14,12 +15,14 @@ import (
 	"github.com/JesseNicholas00/HaloSuster/types/nip"
 	"github.com/JesseNicholas00/HaloSuster/utils/ctxrizz"
 	"github.com/JesseNicholas00/HaloSuster/utils/logging"
+	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
 	"github.com/jmoiron/sqlx"
 )
 
 func initControllers(
 	cfg ServerConfig,
 	db *sqlx.DB,
+	uploader *manager.Uploader,
 ) (ctrls []controllers.Controller) {
 	ctrlInitLogger := logging.GetLogger("main", "init", "controllers")
 	defer func() {
@@ -62,6 +65,8 @@ func initControllers(
 		authMwEither,
 	)
 	ctrls = append(ctrls, medicalRecordCtrl)
+	imageCtrl := imageCtrl.NewImageController(uploader, cfg.awsS3BucketName, authMwEither)
+	ctrls = append(ctrls, imageCtrl)
 
 	return
 }
