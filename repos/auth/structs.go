@@ -6,6 +6,7 @@ type User struct {
 	Id        string    `db:"user_id"`
 	Nip       int64     `db:"nip"`
 	Name      string    `db:"name"`
+	Admin     bool      `db:"is_admin"`
 	Password  string    `db:"password"`
 	Active    bool      `db:"active"`
 	ImageUrl  string    `db:"image_url"`

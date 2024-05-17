@@ -39,17 +39,10 @@ func (repo *authRepositoryImpl) ListUsers(
 	}
 
 	if filter.Role != nil {
-		if *filter.Role == "it" {
-			conditions = append(
-				conditions,
-				mewsql.WithCondition("nip >= ?", 6150000000000),
-			)
-		} else {
-			conditions = append(
-				conditions,
-				mewsql.WithCondition("nip < ?", 6150000000000),
-			)
-		}
+		conditions = append(
+			conditions,
+			mewsql.WithCondition("is_admin IS ?", *filter.Role == "it"),
+		)
 	}
 
 	options := []mewsql.SelectOption{

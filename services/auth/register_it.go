@@ -42,6 +42,7 @@ func (svc *authServiceImpl) RegisterIt(
 		Id:       uuid.NewString(),
 		Nip:      req.Nip,
 		Name:     req.Name,
+		Admin:    true,
 		Active:   true,
 		Password: string(cryptedPw),
 	})

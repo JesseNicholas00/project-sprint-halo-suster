@@ -33,6 +33,7 @@ func (svc *authServiceImpl) RegisterNurse(
 		Id:       uuid.NewString(),
 		Nip:      req.Nip,
 		Name:     req.Name,
+		Admin:    false,
 		Active:   false,
 		ImageUrl: req.ImageUrl,
 	})

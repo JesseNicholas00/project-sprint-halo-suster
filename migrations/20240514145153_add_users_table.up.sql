@@ -1,6 +1,7 @@
 CREATE TABLE users (
     user_id TEXT PRIMARY KEY,
     nip BIGINT UNIQUE,
+    is_admin BOOLEAN,
     name TEXT,
     password TEXT,
     active BOOLEAN,

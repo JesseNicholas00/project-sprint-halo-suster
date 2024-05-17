@@ -36,6 +36,7 @@ func TestFindUserByNip(t *testing.T) {
 					Nip:      dummyNips[i],
 					Name:     "firstname lastname",
 					Password: "hashedPasswordVeryScure",
+					Admin:    true,
 					Active:   true,
 					ImageUrl: "https://bread.com/bread.png",
 				}
