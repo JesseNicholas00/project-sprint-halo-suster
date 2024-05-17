@@ -34,3 +34,14 @@ func TestGetSubDigit(t *testing.T) {
 		})
 	})
 }
+
+func TestGetLen(t *testing.T) {
+	Convey("When getting the length of a number", t, func() {
+		Convey("Should return the expected values", func() {
+			So(helper.GetLen(123), ShouldEqual, 3)
+			So(helper.GetLen(12345678), ShouldEqual, 8)
+			So(helper.GetLen(1), ShouldEqual, 1)
+			So(helper.GetLen(0), ShouldEqual, 0)
+		})
+	})
+}

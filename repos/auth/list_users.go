@@ -3,7 +3,9 @@ package auth
 import (
 	"context"
 
+	"github.com/JesseNicholas00/HaloSuster/types/nip"
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
+	"github.com/JesseNicholas00/HaloSuster/utils/helper"
 	"github.com/JesseNicholas00/HaloSuster/utils/mewsql"
 )
 
@@ -32,9 +34,27 @@ func (repo *authRepositoryImpl) ListUsers(
 	}
 
 	if filter.Nip != nil {
+		nipConditions := []mewsql.Condition{
+			mewsql.WithCondition("nip = ?", *filter.Nip),
+		}
+
+		curLen := helper.GetLen(*filter.Nip)
+		lowerBound := *filter.Nip
+		upperBound := *filter.Nip
+
+		for len := curLen + 1; len <= nip.NipLengthMax; len++ {
+			lowerBound = lowerBound * 10   // xxx0
+			upperBound = upperBound*10 + 9 // xxx9
+
+			nipConditions = append(nipConditions, mewsql.And(
+				mewsql.WithCondition("nip >= ?", lowerBound),
+				mewsql.WithCondition("nip <= ?", upperBound),
+			))
+		}
+
 		conditions = append(
 			conditions,
-			mewsql.WithCondition("nip >= ?", *filter.Nip),
+			mewsql.Or(nipConditions...),
 		)
 	}
 
