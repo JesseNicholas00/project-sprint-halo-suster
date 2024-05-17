@@ -18,6 +18,11 @@ type AuthService interface {
 		req GetSessionFromTokenReq,
 		res *GetSessionFromTokenRes,
 	) error
+	ListUsers(
+		ctx context.Context,
+		req ListUsersReq,
+		res *ListUsersRes,
+	) error
 	RegisterNurse(
 		ctx context.Context,
 		req RegisterNurseReq,

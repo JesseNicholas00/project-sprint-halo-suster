@@ -7,6 +7,7 @@ import (
 
 	"github.com/JesseNicholas00/HaloSuster/repos/auth"
 	"github.com/JesseNicholas00/HaloSuster/types/nip"
+	"github.com/JesseNicholas00/HaloSuster/utils/helper"
 	gomock "github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 	"golang.org/x/crypto/bcrypt"
@@ -32,6 +33,8 @@ func TestLogin(t *testing.T) {
 		)
 		So(err, ShouldBeNil)
 
+		dummyTime := helper.MustParseDateOnly("2022-02-02")
+
 		repoRes := auth.User{
 			Id:        "bread",
 			Nip:       req.Nip,
@@ -39,7 +42,7 @@ func TestLogin(t *testing.T) {
 			Password:  string(cryptedPw),
 			Active:    true,
 			ImageUrl:  "https://bread.com/bread.png",
-			CreatedAt: "now",
+			CreatedAt: dummyTime,
 		}
 
 		repoResInactive := auth.User{
@@ -49,7 +52,7 @@ func TestLogin(t *testing.T) {
 			Password:  string(cryptedPw),
 			Active:    false,
 			ImageUrl:  "https://bread.com/bread.png",
-			CreatedAt: "now",
+			CreatedAt: dummyTime,
 		}
 
 		Convey("If the user is inactive", func() {

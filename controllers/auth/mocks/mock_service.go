@@ -77,6 +77,20 @@ func (mr *MockAuthServiceMockRecorder) GrantAccessNurse(arg0, arg1, arg2 interfa
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GrantAccessNurse", reflect.TypeOf((*MockAuthService)(nil).GrantAccessNurse), arg0, arg1, arg2)
 }
 
+// ListUsers mocks base method.
+func (m *MockAuthService) ListUsers(arg0 context.Context, arg1 auth.ListUsersReq, arg2 *auth.ListUsersRes) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListUsers", arg0, arg1, arg2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ListUsers indicates an expected call of ListUsers.
+func (mr *MockAuthServiceMockRecorder) ListUsers(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUsers", reflect.TypeOf((*MockAuthService)(nil).ListUsers), arg0, arg1, arg2)
+}
+
 // Login mocks base method.
 func (m *MockAuthService) Login(arg0 context.Context, arg1 auth.LoginReq, arg2 *auth.LoginRes) error {
 	m.ctrl.T.Helper()

@@ -63,6 +63,27 @@ type LoginRes struct {
 	AccessToken string `json:"accessToken"`
 }
 
+type ListUsersReq struct {
+	UserId        *string `query:"userId"`
+	Limit         *int    `query:"limit"`
+	Offset        *int    `query:"offset"`
+	Name          *string `query:"name"`
+	Nip           *int64  `query:"nip"`
+	Role          *string `query:"role"`
+	CreatedAtSort *string `query:"createdAt"`
+}
+
+type ListUsersRes struct {
+	Data []ListUsersResData
+}
+
+type ListUsersResData struct {
+	UserId    string `json:"userId"`
+	Nip       int64  `json:"nip"`
+	Name      string `json:"name"`
+	CreatedAt string `json:"createdAt"`
+}
+
 type GetSessionFromTokenReq struct {
 	AccessToken string
 }

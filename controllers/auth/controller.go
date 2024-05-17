@@ -15,6 +15,8 @@ type authController struct {
 func (ctrl *authController) Register(server *echo.Echo) error {
 	g := server.Group("/v1/user")
 
+	g.GET("", ctrl.listUsers, ctrl.authMw.Process)
+
 	g.POST("/it/register", ctrl.registerIt)
 	g.POST("/it/login", ctrl.loginIt)
 

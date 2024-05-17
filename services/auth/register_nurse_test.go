@@ -7,6 +7,7 @@ import (
 
 	"github.com/JesseNicholas00/HaloSuster/repos/auth"
 	"github.com/JesseNicholas00/HaloSuster/types/nip"
+	"github.com/JesseNicholas00/HaloSuster/utils/helper"
 	gomock "github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -22,6 +23,8 @@ func TestRegisterNurse(t *testing.T) {
 			ImageUrl: "https://awss3.d87801e9-fcfc-42a8-963b-fe86d895b51a.jpeg",
 		}
 
+		dummyTime := helper.MustParseDateOnly("2022-02-02")
+
 		repoReq := auth.User{
 			Id:       "bread",
 			Nip:      req.Nip,
@@ -35,7 +38,7 @@ func TestRegisterNurse(t *testing.T) {
 			Name:      repoReq.Name,
 			Active:    repoReq.Active,
 			ImageUrl:  repoReq.ImageUrl,
-			CreatedAt: "now",
+			CreatedAt: dummyTime,
 		}
 
 		Convey("If the NIP is already registered", func() {
