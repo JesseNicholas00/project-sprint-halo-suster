@@ -7,7 +7,7 @@ import (
 )
 
 func validateIso860Impl(s string) bool {
-	_, ok := time.Parse(time.DateOnly, s)
+	_, ok := time.Parse(time.RFC3339, s)
 	return ok == nil
 }
 

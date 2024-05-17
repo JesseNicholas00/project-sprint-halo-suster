@@ -19,7 +19,7 @@ func TestRegisterPatientValid(t *testing.T) {
 		identityNumber := int64(1234567812345678)
 		phoneNumber := "+62123456892"
 		name := "firstname lastname"
-		birthDate := "1986-01-01"
+		birthDate := "1997-03-24T16:02:22.011Z"
 		gender := "male"
 		identityCardImg := "https://bread.com/bread.png"
 
@@ -71,7 +71,7 @@ func TestRegisterPatientInvalid(t *testing.T) {
 		identityNumber := int64(1234567812345678)
 		phoneNumber := "+62123456892"
 		name := "firstname lastname"
-		birthDate := "1986-01-01"
+		birthDate := "1986-01-01T00:00:00Z"
 		gender := "male"
 		identityCardImg := "https://bread.com/bread.png"
 

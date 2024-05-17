@@ -22,7 +22,7 @@ func (svc *medicalRecordServiceImpl) RegisterPatient(
 		IdentityNumber: req.IdentityNumber,
 		PhoneNumber:    req.PhoneNumber,
 		Name:           req.Name,
-		BirthDate:      helper.MustParseDateOnly(req.BirthDate),
+		BirthDate:      helper.MustParse(req.BirthDate),
 		Gender:         req.Gender,
 		ImageUrl:       req.IdentityCardImg,
 	}); err != nil {
