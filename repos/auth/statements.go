@@ -55,7 +55,7 @@ func prepareStatements() statements {
 				active = :active,
 				password = :password
 			WHERE
-				user_id = :user_id AND nip < 6150000000000
+				user_id = :user_id AND is_admin IS FALSE
 			RETURNING
 				user_id,
 				nip,
@@ -71,13 +71,13 @@ func prepareStatements() statements {
 				nip = :nip,
 				name= :name
 			WHERE
-				user_id = :user_id AND nip < 6150000000000
+				user_id = :user_id AND is_admin IS FALSE
 		`),
 		deleteNurseByUserId: statementutil.MustPrepare(`
 			DELETE FROM
 				users
 			WHERE
-				user_id = $1 AND nip < 6150000000000
+				user_id = $1 AND is_admin IS FALSE
 		`),
 	}
 }
