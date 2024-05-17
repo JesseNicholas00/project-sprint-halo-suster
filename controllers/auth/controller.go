@@ -22,6 +22,10 @@ func (ctrl *authController) Register(server *echo.Echo) error {
 	g.POST("/nurse/register", ctrl.registerNurse, ctrl.authMw.Process)
 	g.POST("/nurse/:userId/access", ctrl.grantAccessNurse, ctrl.authMw.Process)
 
+	g.PUT("/nurse/:userId", ctrl.updateNurse, ctrl.authMw.Process)
+
+	g.DELETE("/nurse/:userId", ctrl.deleteNurse, ctrl.authMw.Process)
+
 	return nil
 }
 
