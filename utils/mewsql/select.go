@@ -14,12 +14,9 @@ const (
 	numSelectOptionKind
 )
 
-type SelectOption struct {
-	kind                      int
-	statement                 string
-	statementWithPlaceholders []string
-	placeholderSeparator      string
-	bindVars                  []interface{}
+type SelectOption interface {
+	getKind() int
+	marshal(bindVarCount *int) (sql string, bindVars []interface{})
 }
 
 func Select(
@@ -27,45 +24,50 @@ func Select(
 	table string,
 	options ...SelectOption,
 ) (sql string, bindVars []interface{}) {
-	optionBuffer := make([]string, numSelectOptionKind)
+	sqlBuffer := make([]strings.Builder, numSelectOptionKind)
+	bindVarsBuffer := make([][]interface{}, numSelectOptionKind)
 
 	numBindVars := 0
 	for _, option := range options {
-		if len(option.statementWithPlaceholders) == 0 {
-			optionBuffer[option.kind] = option.statement
-			continue
-		}
+		kind := option.getKind()
+		sql, bindVars := option.marshal(&numBindVars)
 
-		var buffer []string
-		for idx, statement := range option.statementWithPlaceholders {
-			numBindVars++
-			buffer = append(
-				buffer,
-				strings.ReplaceAll(
-					statement,
-					"?",
-					fmt.Sprintf("$%d", numBindVars),
-				),
-			)
-			bindVars = append(bindVars, option.bindVars[idx])
-		}
+		sqlBuffer[kind].WriteString(sql)
+		bindVarsBuffer = append(bindVarsBuffer, bindVars)
+	}
 
-		optionBuffer[option.kind] = fmt.Sprintf(
-			"%s %s",
-			option.statement,
-			strings.Join(
-				buffer,
-				option.placeholderSeparator,
-			),
-		)
+	var sqlBufferString []string
+	for _, buf := range sqlBuffer {
+		sqlBufferString = append(sqlBufferString, buf.String())
 	}
 
 	sql = fmt.Sprintf(
 		"SELECT %s FROM %s %s",
 		columns,
 		table,
-		strings.Join(optionBuffer, " "),
+		strings.Join(sqlBufferString, " "),
 	)
+
+	for _, curVars := range bindVarsBuffer {
+		bindVars = append(bindVars, curVars...)
+	}
+
+	return
+}
+
+type genericSelectOptionImpl struct {
+	kind      int
+	statement string
+}
+
+func (opt *genericSelectOptionImpl) getKind() int {
+	return opt.kind
+}
+
+func (opt *genericSelectOptionImpl) marshal(
+	bindVarCount *int,
+) (ret string, vars []interface{}) {
+	ret = opt.statement
 	return
 }
 
@@ -74,54 +76,106 @@ func WithOrderBy(expression string, ascDesc string) SelectOption {
 	if ascDesc != "ASC" && ascDesc != "DESC" {
 		ascDesc = ""
 	}
-	return SelectOption{
+	return &genericSelectOptionImpl{
 		kind:      selectOptionOrderBy,
 		statement: fmt.Sprintf("ORDER BY %s %s", expression, ascDesc),
 	}
 }
 
 func WithLimit(count int) SelectOption {
-	return SelectOption{
+	return &genericSelectOptionImpl{
 		kind:      selectOptionLimit,
 		statement: fmt.Sprintf("LIMIT %d", count),
 	}
 }
 
 func WithOffset(count int) SelectOption {
-	return SelectOption{
+	return &genericSelectOptionImpl{
 		kind:      selectOptionOffset,
 		statement: fmt.Sprintf("OFFSET %d", count),
 	}
 }
 
-type Condition struct {
-	sqlQuery string
-	bindVar  interface{}
+type Condition interface {
+	marshal(bindVarCount *int) (sql string, bindVars []interface{})
+}
+
+type joiningCondition struct {
+	conditions  []Condition
+	joinKeyword string
+}
+
+func (c *joiningCondition) marshal(
+	bindVarCount *int,
+) (sql string, bindVars []interface{}) {
+	var sqlBuf []string
+	for _, cond := range c.conditions {
+		curSql, curVars := cond.marshal(bindVarCount)
+
+		sqlBuf = append(sqlBuf, curSql)
+		bindVars = append(bindVars, curVars...)
+	}
+	sql = "(" + strings.Join(sqlBuf, c.joinKeyword) + ")"
+	return
+}
+
+func And(conditions ...Condition) Condition {
+	return &joiningCondition{conditions: conditions, joinKeyword: " AND "}
+}
+
+func Or(conditions ...Condition) Condition {
+	return &joiningCondition{conditions: conditions, joinKeyword: " OR "}
+}
+
+type whereSelectOptionImpl struct {
+	condition Condition
+}
+
+func (opt *whereSelectOptionImpl) getKind() int {
+	return selectOptionWhere
+}
+
+func (opt *whereSelectOptionImpl) marshal(
+	bindVarCount *int,
+) (ret string, vars []interface{}) {
+	retTemp, vars := opt.condition.marshal(bindVarCount)
+	if len(retTemp) > 0 {
+		ret = "WHERE " + retTemp
+	}
+	return
 }
 
 func WithWhere(
 	conditions ...Condition,
 ) SelectOption {
-	res := SelectOption{
-		kind:                 selectOptionWhere,
-		placeholderSeparator: " AND ",
+	return &whereSelectOptionImpl{
+		condition: And(conditions...),
 	}
+}
 
-	if len(conditions) > 0 {
-		res.statement = "WHERE"
-	}
+type basicCondition struct {
+	sqlQuery string
+	bindVar  interface{}
+}
 
-	for _, condition := range conditions {
-		res.statementWithPlaceholders = append(
-			res.statementWithPlaceholders,
-			condition.sqlQuery,
+func (c *basicCondition) marshal(
+	bindVarCount *int,
+) (sql string, bindVars []interface{}) {
+	sql = c.sqlQuery
+
+	if c.bindVar != nil {
+		(*bindVarCount)++
+		sql = strings.ReplaceAll(
+			sql,
+			"?",
+			fmt.Sprintf("$%d", *bindVarCount),
 		)
-		res.bindVars = append(res.bindVars, condition.bindVar)
+		bindVars = append(bindVars, c.bindVar)
 	}
 
-	return res
+	return
 }
 
 func WithCondition(sqlQuery string, bindVar interface{}) Condition {
-	return Condition{sqlQuery: sqlQuery, bindVar: bindVar}
+	return &basicCondition{sqlQuery: sqlQuery, bindVar: bindVar}
 }
