@@ -157,6 +157,19 @@ func WithJsonPayload(
 	}
 }
 
+func WithContextData(
+	key string,
+	value interface{},
+) option {
+	return option{
+		urlTr: defaultUrlTransformer,
+		ctxTr: func(ctxPtr *echo.Context) {
+			(*ctxPtr).Set(key, value)
+		},
+		reqTr: defaultReqTransformer,
+	}
+}
+
 type option struct {
 	urlTr urlTransformer
 	ctxTr ctxTransformer

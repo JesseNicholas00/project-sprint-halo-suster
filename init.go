@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/JesseNicholas00/HaloSuster/controllers"
 	authCtrl "github.com/JesseNicholas00/HaloSuster/controllers/auth"
 	medicalRecordCtrl "github.com/JesseNicholas00/HaloSuster/controllers/medicalrecord"
@@ -23,7 +25,9 @@ func initControllers(
 	defer func() {
 		if r := recover(); r != nil {
 			// add extra context to help debug potential panic
-			ctrlInitLogger.Error("panic while initializing controllers: %s", r)
+			ctrlInitLogger.Error(
+				fmt.Sprintf("panic while initializing controllers: %s", r),
+			)
 			panic(r)
 		}
 	}()
@@ -51,6 +55,7 @@ func initControllers(
 	medicalRecordRepo := medicalRecordRepo.NewMedicalRecordRepository(dbRizzer)
 	medicalRecordSvc := medicalRecordSvc.NewMedicalRecordService(
 		medicalRecordRepo,
+		dbRizzer,
 	)
 	medicalRecordCtrl := medicalRecordCtrl.NewMedicalRecordController(
 		medicalRecordSvc,

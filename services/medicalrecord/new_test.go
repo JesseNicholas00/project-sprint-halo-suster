@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/JesseNicholas00/HaloSuster/services/medicalrecord/mocks"
+	"github.com/JesseNicholas00/HaloSuster/utils/ctxrizz"
 	"github.com/golang/mock/gomock"
 )
 
@@ -18,6 +19,9 @@ func NewWithMockedRepo(
 ) {
 	mockCtrl = gomock.NewController(t)
 	mockedRepo = mocks.NewMockMedicalRecordRepository(mockCtrl)
-	service = NewMedicalRecordService(mockedRepo).(*medicalRecordServiceImpl)
+	service = NewMedicalRecordService(
+		mockedRepo,
+		ctxrizz.NewDbContextNoopRizzer(),
+	).(*medicalRecordServiceImpl)
 	return
 }

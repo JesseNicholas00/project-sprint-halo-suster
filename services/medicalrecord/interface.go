@@ -14,4 +14,10 @@ type MedicalRecordService interface {
 		req ListPatientsReq,
 		res *ListPatientsRes,
 	) error
+
+	CreateRecord(
+		ctx context.Context,
+		req CreateRecordReq,
+		res *CreateRecordRes,
+	) error
 }

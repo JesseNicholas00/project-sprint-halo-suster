@@ -7,6 +7,7 @@ import (
 
 type statements struct {
 	createPatient *sqlx.NamedStmt
+	createRecord  *sqlx.NamedStmt
 }
 
 func prepareStatements() statements {
@@ -26,6 +27,27 @@ func prepareStatements() statements {
 				:birth_date,
 				:gender,
 				:image_url
+			)
+		`),
+		createRecord: statementutil.MustPrepareNamed(`
+			INSERT INTO medical_records(
+				patient_identity_number,
+				patient_phone_number,
+				patient_name,
+				patient_birth_date,
+				patient_gender,
+				symptoms,
+				medications,
+				created_by
+			) VALUES (
+				:patient_identity_number,
+				:patient_phone_number,
+				:patient_name,
+				:patient_birth_date,
+				:patient_gender,
+				:symptoms,
+				:medications,
+				:created_by
 			)
 		`),
 	}
