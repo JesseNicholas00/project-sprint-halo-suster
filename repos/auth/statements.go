@@ -18,6 +18,7 @@ func prepareStatements() statements {
 		createUser: statementutil.MustPrepareNamed(`
 			INSERT INTO users(
 				user_id,
+				is_admin,
 				nip,
 				name,
 				password,
@@ -25,6 +26,7 @@ func prepareStatements() statements {
 				image_url
 			) VALUES (
 				:user_id,
+				:is_admin,
 				:nip,
 				:name,
 				:password,
