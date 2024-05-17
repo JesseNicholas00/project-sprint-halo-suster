@@ -24,6 +24,8 @@ func (ctrl *authController) updateNurse(c echo.Context) error {
 			return echo.NewHTTPError(http.StatusNotFound, echo.Map{
 				"message": "user not found",
 			})
+		case errors.Is(err, auth.ErrNipAlreadyExists):
+			return echo.NewHTTPError(http.StatusConflict)
 		default:
 			return errorutil.AddCurrentContext(err)
 		}
