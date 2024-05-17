@@ -12,7 +12,7 @@ import (
 )
 
 func TestCreateRecord(t *testing.T) {
-	mockCtrl, service, mockedRepo := NewWithMockedRepo(t)
+	mockCtrl, service, mockedRepo, _ := NewWithMockedRepo(t)
 	defer mockCtrl.Finish()
 
 	identityNumber := int64(1234567812345678)

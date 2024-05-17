@@ -94,6 +94,21 @@ func (mr *MockAuthRepositoryMockRecorder) FindUserByNip(arg0, arg1 interface{}) 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserByNip", reflect.TypeOf((*MockAuthRepository)(nil).FindUserByNip), arg0, arg1)
 }
 
+// ListAllUsers mocks base method.
+func (m *MockAuthRepository) ListAllUsers(arg0 context.Context, arg1 auth.AllUsersFilter) ([]auth.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListAllUsers", arg0, arg1)
+	ret0, _ := ret[0].([]auth.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListAllUsers indicates an expected call of ListAllUsers.
+func (mr *MockAuthRepositoryMockRecorder) ListAllUsers(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAllUsers", reflect.TypeOf((*MockAuthRepository)(nil).ListAllUsers), arg0, arg1)
+}
+
 // ListUsers mocks base method.
 func (m *MockAuthRepository) ListUsers(arg0 context.Context, arg1 auth.UserFilter) ([]auth.User, error) {
 	m.ctrl.T.Helper()

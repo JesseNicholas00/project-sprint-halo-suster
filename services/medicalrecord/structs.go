@@ -43,3 +43,41 @@ type CreateRecordReq struct {
 
 type CreateRecordRes struct {
 }
+
+type ListRecordReq struct {
+	IdentityNumber  *int64  `query:"identityNumber"`
+	Limit           *int    `query:"limit"`
+	Offset          *int    `query:"offset"`
+	Name            *string `query:"name"`
+	PhoneNumber     *string `query:"phoneNumber"`
+	CreatedAtSort   *string `query:"createdAt"`
+	CreatedByNip    *int64  `query:"createdBy.nip"`
+	CreatedByUserId *string `query:"createdBy.userId"`
+}
+
+type ListRecordRes struct {
+	Data []ListRecordResData
+}
+
+type ListRecordResData struct {
+	IdentityDetail RecordIdentityDetail  `json:"identityDetail"`
+	Symptoms       string                `json:"symptoms"`
+	Medications    string                `json:"medications"`
+	CreatedAt      string                `json:"createdAt"`
+	CreatedBy      RecordCreatedByDetail `json:"createdBy"`
+}
+
+type RecordIdentityDetail struct {
+	IdentityNumber      int64  `json:"identityNumber"`
+	PhoneNumber         string `json:"phoneNumber"`
+	Name                string `json:"name"`
+	BirthDate           string `json:"birthDate"`
+	Gender              string `json:"gender"`
+	IdentityCardScanImg string `json:"identityCardScanImg"`
+}
+
+type RecordCreatedByDetail struct {
+	Nip    int64  `json:"nip"`
+	Name   string `json:"name"`
+	UserId string `json:"userId"`
+}

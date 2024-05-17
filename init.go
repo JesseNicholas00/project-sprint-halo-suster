@@ -58,6 +58,7 @@ func initControllers(
 	medicalRecordRepo := medicalRecordRepo.NewMedicalRecordRepository(dbRizzer)
 	medicalRecordSvc := medicalRecordSvc.NewMedicalRecordService(
 		medicalRecordRepo,
+		authRepo,
 		dbRizzer,
 	)
 	medicalRecordCtrl := medicalRecordCtrl.NewMedicalRecordController(

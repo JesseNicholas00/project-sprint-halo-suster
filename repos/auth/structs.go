@@ -23,6 +23,10 @@ type UserFilter struct {
 	CreatedAtSort *string
 }
 
+type AllUsersFilter struct {
+	UserIds []string
+}
+
 type ActivateUserReq struct {
 	Id       string `db:"user_id"`
 	Password string `db:"password"`
