@@ -17,13 +17,22 @@ const maxSize int64 = 20 << 20
 const minSize int64 = 10 << 10
 
 func (ctrl *imageController) uploadImage(c echo.Context) error {
-	file, err := c.FormFile("file")
+	mpf, err := c.MultipartForm()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{
 			"message": "image is wrong",
 		})
 	}
-	fileType := strings.Split(file.Header.Values("Content-Type")[0], "/")[1]
+	files := mpf.File["file"]
+	if len(files) == 0 {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"message": "image is wrong",
+		})
+	}
+	file := files[0]
+
+	fileParts := strings.Split(file.Filename, ".")
+	fileType := fileParts[len(fileParts)-1]
 	if fileType != "jpg" && fileType != "jpeg" {
 		return c.JSON(http.StatusBadRequest, echo.Map{
 			"message": "image is wrong",
@@ -54,7 +63,6 @@ func (ctrl *imageController) uploadImage(c echo.Context) error {
 	res := image.UploadImageRes{
 		ImageUrl: result.Location,
 	}
-
 	return c.JSON(http.StatusOK, echo.Map{
 		"message": "File uploaded successfully",
 		"data":    res,
