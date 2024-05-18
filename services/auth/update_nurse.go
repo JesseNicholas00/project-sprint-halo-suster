@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/JesseNicholas00/HaloSuster/repos/auth"
+	"github.com/JesseNicholas00/HaloSuster/types/nip"
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
 )
 
@@ -16,7 +17,14 @@ func (svc *authServiceImpl) UpdateNurse(
 	if err := ctx.Err(); err != nil {
 		return err
 	}
-	err := svc.repo.UpdateNurse(ctx, auth.User{
+	_, err := svc.repo.FindUserByNip(ctx, req.Nip)
+	if err == nil {
+		return ErrNipAlreadyExists
+	}
+	if nip.GetRole(req.Nip) != nip.RoleNurse {
+		return ErrUserNotFound
+	}
+	err = svc.repo.UpdateNurse(ctx, auth.User{
 		Id:   req.UserId,
 		Nip:  req.Nip,
 		Name: req.Name,

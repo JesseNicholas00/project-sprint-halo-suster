@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/JesseNicholas00/HaloSuster/services/auth"
-	"github.com/JesseNicholas00/HaloSuster/types/nip"
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
 	"github.com/JesseNicholas00/HaloSuster/utils/request"
 	"github.com/labstack/echo/v4"
@@ -16,13 +15,6 @@ func (ctrl *authController) updateNurse(c echo.Context) error {
 	if err := request.BindAndValidate(c, &req); err != nil {
 		return err
 	}
-
-	if nip.GetRole(req.Nip) != nip.RoleNurse {
-		return echo.NewHTTPError(http.StatusNotFound, echo.Map{
-			"message": "not a valid nip",
-		})
-	}
-
 	var res auth.UpdateNurseRes
 	err := ctrl.service.UpdateNurse(c.Request().Context(), req, &res)
 	if err != nil {
