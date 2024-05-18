@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
+	"github.com/JesseNicholas00/HaloSuster/utils/helper"
 	"github.com/JesseNicholas00/HaloSuster/utils/mewsql"
 )
 
@@ -18,9 +19,17 @@ func (repo *medicalRecordRepositoryImpl) ListPatients(
 	var conditions []mewsql.Condition
 
 	if filter.IdentityNumber != nil {
-		conditions = append(
-			conditions,
-			mewsql.WithCondition("identity_number = ?", *filter.IdentityNumber),
+		curLen := helper.GetLen(*filter.IdentityNumber)
+		lowerBound := *filter.IdentityNumber
+		upperBound := *filter.IdentityNumber
+
+		for len := curLen + 1; len <= 16; len++ {
+			lowerBound = lowerBound * 10   // xxx0
+			upperBound = upperBound*10 + 9 // xxx9
+		}
+		conditions = append(conditions,
+			mewsql.WithCondition("identity_number >= ?", lowerBound),
+			mewsql.WithCondition("identity_number <= ?", upperBound),
 		)
 	}
 

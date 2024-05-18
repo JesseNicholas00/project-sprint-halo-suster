@@ -22,7 +22,11 @@ func (repo *authRepositoryImpl) ActivateNurseByUserId(
 
 	rows, err := sess.
 		NamedStmt(ctx, repo.statements.activateNurseByUserId).
-		QueryxContext(ctx, req)
+		QueryxContext(ctx, map[string]interface{}{
+			"user_id":  req.Id,
+			"password": req.Password,
+			"active":   true,
+		})
 
 	if err != nil {
 		err = errorutil.AddCurrentContext(err)

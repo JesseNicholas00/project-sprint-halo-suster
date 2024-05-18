@@ -61,14 +61,23 @@ func (repo *authRepositoryImpl) ListUsers(
 	if filter.Role != nil {
 		conditions = append(
 			conditions,
-			mewsql.WithCondition("is_admin IS ?", *filter.Role == "it"),
+			mewsql.WithCondition("is_admin = ?", *filter.Role == "it"),
 		)
 	}
 
-	options := []mewsql.SelectOption{
-		mewsql.WithWhere(conditions...),
-		mewsql.WithLimit(filter.Limit),
-		mewsql.WithOffset(filter.Offset),
+	var options []mewsql.SelectOption
+
+	if len(conditions) == 0 {
+		options = []mewsql.SelectOption{
+			mewsql.WithLimit(filter.Limit),
+			mewsql.WithOffset(filter.Offset),
+		}
+	} else {
+		options = []mewsql.SelectOption{
+			mewsql.WithWhere(conditions...),
+			mewsql.WithLimit(filter.Limit),
+			mewsql.WithOffset(filter.Offset),
+		}
 	}
 
 	if filter.CreatedAtSort != nil {

@@ -115,7 +115,9 @@ func (c *joiningCondition) marshal(
 		sqlBuf = append(sqlBuf, curSql)
 		bindVars = append(bindVars, curVars...)
 	}
-	sql = "(" + strings.Join(sqlBuf, c.joinKeyword) + ")"
+	if len(sqlBuf) > 0 {
+		sql = "(" + strings.Join(sqlBuf, c.joinKeyword) + ")"
+	}
 	return
 }
 

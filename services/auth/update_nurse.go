@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"errors"
 
 	"github.com/JesseNicholas00/HaloSuster/repos/auth"
 	"github.com/JesseNicholas00/HaloSuster/utils/errorutil"
@@ -21,10 +22,14 @@ func (svc *authServiceImpl) UpdateNurse(
 		Name: req.Name,
 	})
 	if err != nil {
-		if err == auth.ErrUserIdNotFound {
+		switch {
+		case errors.Is(err, auth.ErrUserIdNotFound):
 			return ErrUserNotFound
+		case errors.Is(err, auth.ErrDuplicateUser):
+			return ErrNipAlreadyExists
+		default:
+			return errorutil.AddCurrentContext(err)
 		}
-		return errorutil.AddCurrentContext(err)
 	}
 
 	return nil

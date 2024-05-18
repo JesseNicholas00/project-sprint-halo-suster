@@ -22,14 +22,14 @@ func (repo *authRepositoryImpl) DeleteNurse(
 
 	results, err := sess.
 		Stmt(ctx, repo.statements.deleteNurseByUserId).
-		Exec(ctx, userId)
+		ExecContext(ctx, userId)
 	if err != nil {
-		return err
+		return errorutil.AddCurrentContext(err)
 	}
 
 	rowsAffected, err := results.RowsAffected()
 	if err != nil {
-		return err
+		return errorutil.AddCurrentContext(err)
 	}
 	if rowsAffected == 0 {
 		return ErrUserIdNotFound
