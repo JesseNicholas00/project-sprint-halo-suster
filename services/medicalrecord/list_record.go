@@ -12,7 +12,11 @@ import (
 )
 
 // ListRecord implements MedicalRecordService.
-func (svc *medicalRecordServiceImpl) ListRecord(ctx context.Context, req ListRecordReq, res *ListRecordRes) (err error) {
+func (svc *medicalRecordServiceImpl) ListRecord(
+	ctx context.Context,
+	req ListRecordReq,
+	res *ListRecordRes,
+) (err error) {
 	if err = ctx.Err(); err != nil {
 		return
 	}
@@ -33,7 +37,8 @@ func (svc *medicalRecordServiceImpl) ListRecord(ctx context.Context, req ListRec
 				}
 				return errorutil.AddCurrentContext(err)
 			}
-			if req.CreatedByUserId != nil && *req.CreatedByUserId != userRes.Id {
+			if req.CreatedByUserId != nil &&
+				*req.CreatedByUserId != userRes.Id {
 				return nil
 			}
 			req.CreatedByUserId = &userRes.Id
@@ -65,9 +70,12 @@ func (svc *medicalRecordServiceImpl) ListRecord(ctx context.Context, req ListRec
 		if len(recordRes) > 0 {
 			if len(filterUser) == 0 {
 				userIds := getUserIds(recordRes)
-				recordUsers, err := svc.repoAuth.ListAllUsers(ctx, auth.AllUsersFilter{
-					UserIds: userIds,
-				})
+				recordUsers, err := svc.repoAuth.ListAllUsers(
+					ctx,
+					auth.AllUsersFilter{
+						UserIds: userIds,
+					},
+				)
 				for _, recordUser := range recordUsers {
 					filterUser[recordUser.Id] = recordUser
 				}
@@ -91,21 +99,27 @@ func getUserIds(results []medicalrecord.Record) (userIds []string) {
 	return userIds
 }
 
-func mapToRes(results []medicalrecord.Record, users map[string]auth.User, res *ListRecordRes) {
+func mapToRes(
+	results []medicalrecord.Record,
+	users map[string]auth.User,
+	res *ListRecordRes,
+) {
 	var mappedResult []ListRecordResData
 	for _, result := range results {
 		mappedResult = append(mappedResult, ListRecordResData{
 			IdentityDetail: RecordIdentityDetail{
-				IdentityNumber:      result.PatientId,
-				PhoneNumber:         result.PatientPhoneNumber,
-				Name:                result.PatientName,
-				BirthDate:           result.PatientBirthDate.Format(time.DateOnly),
+				IdentityNumber: result.PatientId,
+				PhoneNumber:    result.PatientPhoneNumber,
+				Name:           result.PatientName,
+				BirthDate: result.PatientBirthDate.Format(
+					time.DateOnly,
+				),
 				Gender:              result.PatientGender,
 				IdentityCardScanImg: result.PatientImageUrl,
 			},
 			Symptoms:    result.Symptoms,
 			Medications: result.Medications,
-			CreatedAt:   result.CreatedAt.Format(time.RFC3339),
+			CreatedAt:   result.CreatedAt.Format(time.RFC3339Nano),
 			CreatedBy: RecordCreatedByDetail{
 				Nip:    users[result.CreatedByUserId].Nip,
 				Name:   users[result.CreatedByUserId].Name,

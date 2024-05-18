@@ -36,7 +36,7 @@ func (svc *medicalRecordServiceImpl) ListPatients(
 			Name:           patient.Name,
 			BirthDate:      patient.BirthDate.Format(time.DateOnly),
 			Gender:         patient.Gender,
-			CreatedAt:      patient.CreatedAt.Format(time.RFC3339),
+			CreatedAt:      patient.CreatedAt.Format(time.RFC3339Nano),
 		})
 	}
 

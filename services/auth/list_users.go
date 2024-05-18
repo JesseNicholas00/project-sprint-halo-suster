@@ -35,7 +35,7 @@ func (svc *authServiceImpl) ListUsers(
 			UserId:    user.Id,
 			Nip:       user.Nip,
 			Name:      user.Name,
-			CreatedAt: user.CreatedAt.Format(time.RFC3339),
+			CreatedAt: user.CreatedAt.Format(time.RFC3339Nano),
 		})
 	}
 
