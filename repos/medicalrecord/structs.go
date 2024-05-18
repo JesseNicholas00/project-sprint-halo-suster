@@ -21,6 +21,14 @@ type PatientFilter struct {
 	CreatedAtSort  *string
 }
 
+type RecordFilter struct {
+	IdentityNumber  *int64
+	CreatedByUserId *string
+	Limit           int
+	Offset          int
+	CreatedAtSort   *string
+}
+
 type Record struct {
 	RecordId           int64     `db:"medical_record_id"`
 	PatientId          int64     `db:"patient_identity_number"`
@@ -28,8 +36,9 @@ type Record struct {
 	PatientName        string    `db:"patient_name"`
 	PatientBirthDate   time.Time `db:"patient_birth_date"`
 	PatientGender      string    `db:"patient_gender"`
+	PatientImageUrl    string    `db:"patient_image_url"`
 	Symptoms           string    `db:"symptoms"`
 	Medications        string    `db:"medications"`
-	CreatedByUserId    string    `db:"created_by"`
 	CreatedAt          time.Time `db:"created_at"`
+	CreatedByUserId    string    `db:"created_by"`
 }

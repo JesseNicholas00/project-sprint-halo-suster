@@ -18,6 +18,7 @@ func (ctrl *medicalRecordController) Register(server *echo.Echo) error {
 	g.POST("/patient", ctrl.registerPatient)
 	g.GET("/patient", ctrl.listPatients)
 	g.POST("/record", ctrl.createRecord)
+	g.GET("/record", ctrl.listRecord)
 
 	return nil
 }

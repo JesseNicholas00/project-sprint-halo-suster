@@ -12,7 +12,7 @@ import (
 
 func TestListPatients(t *testing.T) {
 	Convey("When called", t, func() {
-		mockCtrl, service, mockedRepo := NewWithMockedRepo(t)
+		mockCtrl, service, mockedRepo, _ := NewWithMockedRepo(t)
 		defer mockCtrl.Finish()
 
 		limit := 5
