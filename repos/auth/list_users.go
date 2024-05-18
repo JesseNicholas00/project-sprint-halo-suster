@@ -46,10 +46,12 @@ func (repo *authRepositoryImpl) ListUsers(
 			lowerBound = lowerBound * 10   // xxx0
 			upperBound = upperBound*10 + 9 // xxx9
 
-			nipConditions = append(nipConditions, mewsql.And(
-				mewsql.WithCondition("nip >= ?", lowerBound),
-				mewsql.WithCondition("nip <= ?", upperBound),
-			))
+			if len >= nip.NipLengthMin {
+				nipConditions = append(nipConditions, mewsql.And(
+					mewsql.WithCondition("nip >= ?", lowerBound),
+					mewsql.WithCondition("nip <= ?", upperBound),
+				))
+			}
 		}
 
 		conditions = append(
