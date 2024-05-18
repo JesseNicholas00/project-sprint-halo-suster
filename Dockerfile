@@ -18,6 +18,7 @@ WORKDIR /app/
 
 COPY --from=builder /app/myapp .
 COPY --from=builder /empty .env
+COPY --from=builder /app/migrations ./migrations
 
 EXPOSE 8080
 

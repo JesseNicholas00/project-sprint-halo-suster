@@ -73,6 +73,8 @@ func loadConfig() (cfg ServerConfig, err error) {
 		conf.GetInt64("DB_MAX_CONN_LIFETIME_MS"),
 	) * time.Millisecond
 
+	conf.SetDefault("DB_MIGRATE_UP_ON_START", true)
+	conf.SetDefault("DB_MIGRATE_DOWN_ON_START", true)
 	cfg.migrateUpOnStart = conf.GetBool("DB_MIGRATE_UP_ON_START")
 	cfg.migrateDownOnStart = conf.GetBool("DB_MIGRATE_DOWN_ON_START")
 
