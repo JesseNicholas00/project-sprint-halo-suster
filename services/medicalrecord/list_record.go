@@ -105,10 +105,10 @@ func mapToRes(results []medicalrecord.Record, users map[string]auth.User, res *L
 			},
 			Symptoms:    result.Symptoms,
 			Medications: result.Medications,
-			CreatedAt:   result.CreatedAt.Format(time.DateOnly),
+			CreatedAt:   result.CreatedAt.Format(time.RFC3339),
 			CreatedBy: RecordCreatedByDetail{
 				Nip:    users[result.CreatedByUserId].Nip,
-				Name:   users[result.PatientName].Name,
+				Name:   users[result.CreatedByUserId].Name,
 				UserId: result.CreatedByUserId,
 			},
 		})

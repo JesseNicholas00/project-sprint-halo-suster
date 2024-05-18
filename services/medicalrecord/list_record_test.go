@@ -8,7 +8,6 @@ import (
 	"github.com/JesseNicholas00/HaloSuster/repos/auth"
 	"github.com/JesseNicholas00/HaloSuster/repos/medicalrecord"
 	"github.com/JesseNicholas00/HaloSuster/types/nip"
-	"github.com/JesseNicholas00/HaloSuster/utils/helper"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -123,7 +122,7 @@ func TestListRecord(t *testing.T) {
 			for idx, record := range records {
 				cur := res.Data[idx]
 				So(
-					helper.MustParseDateOnly(cur.CreatedBy.UserId),
+					cur.CreatedBy.UserId,
 					ShouldEqual,
 					record.CreatedByUserId,
 				)
@@ -137,7 +136,7 @@ func TestListRecord(t *testing.T) {
 				So(cur.IdentityDetail.PhoneNumber, ShouldEqual, record.PatientPhoneNumber)
 				So(cur.IdentityDetail.Name, ShouldEqual, record.PatientName)
 				So(cur.IdentityDetail.Gender, ShouldEqual, record.PatientGender)
-				So(cur.IdentityDetail.BirthDate, ShouldEqual, record.PatientBirthDate)
+				So(cur.IdentityDetail.BirthDate, ShouldEqual, record.PatientBirthDate.Format(time.DateOnly))
 				So(cur.IdentityDetail.IdentityNumber, ShouldEqual, record.PatientId)
 				So(cur.IdentityDetail.IdentityCardScanImg, ShouldEqual, record.PatientImageUrl)
 				So(cur.IdentityDetail.IdentityCardScanImg, ShouldEqual, record.PatientImageUrl)

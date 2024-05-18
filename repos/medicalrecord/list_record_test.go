@@ -112,20 +112,19 @@ func TestListRecord(t *testing.T) {
 			})
 		})
 
-			Convey("When user doesn't exist", func() {
-				Convey("Should return an empty list", func() {
-					req := medicalrecord.RecordFilter{
-						IdentityNumber: helper.ToPointer(
-							int64(6969696969696969),
-						),
-						Limit:  5,
-						Offset: 0,
-					}
+		Convey("When user doesn't exist", func() {
+			Convey("Should return an empty list", func() {
+				req := medicalrecord.RecordFilter{
+					IdentityNumber: helper.ToPointer(
+						int64(6969696969696969),
+					),
+					Limit:  5,
+					Offset: 0,
+				}
 
-					res, err := repo.ListRecord(context.TODO(), req)
-					So(err, ShouldBeNil)
-					So(res, ShouldBeEmpty)
-				})
+				res, err := repo.ListRecord(context.TODO(), req)
+				So(err, ShouldBeNil)
+				So(res, ShouldBeEmpty)
 			})
 		})
 	})

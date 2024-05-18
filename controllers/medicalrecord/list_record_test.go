@@ -2,6 +2,7 @@ package medicalrecord
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -33,14 +34,12 @@ func TestListRecordValid(t *testing.T) {
 			"/v1/medical/record",
 			rec,
 			unittesting.WithQueryParams(map[string]string{
-				"identityNumber":   "123456789",
-				"limit":            "10",
-				"offset":           "0",
-				"name":             "John Doe",
-				"phoneNumber":      "+1234567890",
-				"createdAt":        "asc",
-				"createdBy.nip":    "987654321",
-				"createdBy.userId": "juanId",
+				"identityNumber":   fmt.Sprint(identityNumber),
+				"name":             name,
+				"createdAt":        sort,
+				"phoneNumber":      phoneNumber,
+				"createdBy.nip":    fmt.Sprint(createdByNip),
+				"createdBy.userId": createdByUserId,
 			}),
 		)
 

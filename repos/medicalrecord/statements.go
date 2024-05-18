@@ -36,6 +36,7 @@ func prepareStatements() statements {
 				patient_name,
 				patient_birth_date,
 				patient_gender,
+				patient_image_url,
 				symptoms,
 				medications,
 				created_by
@@ -45,6 +46,7 @@ func prepareStatements() statements {
 				:patient_name,
 				:patient_birth_date,
 				:patient_gender,
+				:patient_image_url,
 				:symptoms,
 				:medications,
 				:created_by
