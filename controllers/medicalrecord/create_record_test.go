@@ -122,9 +122,9 @@ func TestCreateRecordInvalid(t *testing.T) {
 				Return(medicalrecord.ErrIdentityNumberNotFound).
 				Times(1)
 
-			Convey("Should return HTTP code 400", func() {
+			Convey("Should return HTTP code 404", func() {
 				unittesting.CallController(ctx, controller.createRecord)
-				So(rec.Code, ShouldEqual, http.StatusBadRequest)
+				So(rec.Code, ShouldEqual, http.StatusNotFound)
 			})
 		})
 	})

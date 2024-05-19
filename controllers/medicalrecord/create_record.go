@@ -27,7 +27,7 @@ func (ctrl *medicalRecordController) createRecord(c echo.Context) error {
 		&medicalrecord.CreateRecordRes{},
 	); err != nil {
 		if errors.Is(err, medicalrecord.ErrIdentityNumberNotFound) {
-			return echo.NewHTTPError(http.StatusBadRequest, echo.Map{
+			return echo.NewHTTPError(http.StatusNotFound, echo.Map{
 				"message": "patient identity number not found",
 			})
 		}
